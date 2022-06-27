@@ -1,5 +1,6 @@
 import Home from "./pages/Home/Home.jsx";
 import BusinessLanding from "./pages/BusinessLanding/BusinessLanding.jsx";
+import ClientsLandingPage from "./pages/CliLandingPage/CliLandingPage.jsx";
 
 const routes = [
 	{
@@ -8,12 +9,18 @@ const routes = [
 		element: <Home />,
 		exact: true,
 	},
+	
+	{
+		id: 1,
+		path: "/clients",
+		element: <ClientsLandingPage />,
+		exact: true,
+	},
 
 	{
 		id: 2,
 		path: "/business",
 		element: <BusinessLanding/>,
-		exact: true,
 	},
 ];
 
