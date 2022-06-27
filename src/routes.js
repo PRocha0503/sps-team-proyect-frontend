@@ -1,6 +1,7 @@
 import Home from "./pages/Home/Home.jsx";
 import BusinessLanding from "./pages/BusinessLanding/BusinessLanding.jsx";
 import ClientsLandingPage from "./pages/CliLandingPage/CliLandingPage.jsx";
+import BusinessLandingLayout from "./layouts/BusinessLanding/BusinessLandingLayout.js";
 
 const routes = [
 	{
@@ -9,7 +10,7 @@ const routes = [
 		element: <Home />,
 		exact: true,
 	},
-	
+
 	{
 		id: 1,
 		path: "/clients",
@@ -19,9 +20,12 @@ const routes = [
 
 	{
 		id: 2,
-		path: "/business",
-		element: <BusinessLanding/>,
-	},
+		path: '/business/',
+		element: <BusinessLandingLayout />,
+		children: [
+		  { id: 3, path: '/', element: <BusinessLanding /> },
+		],
+	  },
 ];
 
 export default routes;

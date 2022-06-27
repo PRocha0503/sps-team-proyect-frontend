@@ -1,12 +1,17 @@
-import { Box, Typography } from "@mui/material";
-import styles from "./styles/Business";
+import { Container, Typography } from '@mui/material';
+import Page from '../../components/Page'
 
-const BusinessLanding = () => {
-	return (
-            <Box sx={{ ...styles.root }}>
-                <Typography>Business Landing Page</Typography>
-            </Box>
-    );
+
+// ----------------------------------------------------------------------
+
+export default function BusinessLanding() {
+  return (
+    <Page title="Business Landing Page">
+      <Container maxWidth="xl">
+        <Typography variant="h4" sx={{ mb: 5 }}>
+          
+        </Typography>
+      </Container>
+    </Page>
+  );
 }
-
-export default BusinessLanding;
