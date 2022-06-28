@@ -15,14 +15,14 @@ export default function Router() {
 		},
 
 		{
-			id: 2,
+			id: 1,
 			path: "/clients",
-			elements: <ClientsLandingPage />,
+			element: <ClientsLandingPage />,
 			exact: true
 		},
 
 	  	{
-			id: 3,
+			id: 2,
 			path: '/business',
 			element: <BusinessLandingLayout />,
 			children: [
