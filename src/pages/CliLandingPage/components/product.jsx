@@ -1,3 +1,5 @@
+import { useState } from "react";
+
 import {
 	Box,
 	Typography,
@@ -12,33 +14,45 @@ import { style } from "@mui/system";
 
 import styles from "../styles/product";
 
-const Product = () => {
+const Product = ({ product }) => {
+	const [coupon, setCoupon] = useState(null);
+	const buyItem = () => {
+		if (coupon) {
+			console.log(coupon);
+		} else {
+			console.log("no coupon");
+		}
+	};
 	return (
 		<Card sx={{ ...styles.root }}>
 			<CardMedia
 				sx={{ ...styles.img }}
 				component="img"
-				height="200"
-				image="https://5spotrestaurant.com/wp-content/uploads/2021/03/uber-eats-logo-1-2048x2048.png"
+				image={product.image}
 				alt="Product Image"
 			/>
-			<CardContent>
+			<CardContent sx={{ ...styles.text }}>
 				<Typography gutterBottom variant="h5">
-					Lizard
+					{product.name}
+				</Typography>
+				<Typography variant="body2" color="primary.blue">
+					{product.owner}
 				</Typography>
 				<Typography variant="body2" color="text.secondary">
-					Lizards are a widespread group of squamate reptiles, with over 6,000
-					species, ranging across all continents except Antarctica
+					{product.description}
 				</Typography>
 			</CardContent>
 			<Box sx={{ ...styles.coupon }}>
 				<TextField
 					id="coupon"
 					label="Coupon"
-					variant="outlined"
+					value={coupon}
+					onChange={(e) => setCoupon(e.target.value)}
 					sx={{ ...styles.txtCoupon }}
 				/>
-				<Button sx={{ ...styles.button }}>Buy</Button>
+				<Button sx={{ ...styles.button }} onClick={buyItem}>
+					${product.price}
+				</Button>
 			</Box>
 		</Card>
 	);

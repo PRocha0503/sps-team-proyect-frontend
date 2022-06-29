@@ -6,7 +6,7 @@ import Router from "./routes";
 function App() {
 	return (
 		<ThemeProvider theme={theme}>
-			<Router/>
+			<Router />
 		</ThemeProvider>
 	);
 }

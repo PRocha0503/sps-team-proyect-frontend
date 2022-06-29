@@ -1,3 +1,6 @@
+import { useEffect, useState } from "react";
+import axios from "axios";
+
 import { Box, Typography, Grid } from "@mui/material";
 import styles from "./styles/style";
 
@@ -5,6 +8,14 @@ import Coupon from "./components/coupons";
 import Product from "./components/product";
 
 const ClientLandingPage = () => {
+	const [products, setProducts] = useState([]);
+	useEffect(() => {
+		const getProducts = async () => {
+			const req = await axios.get("http://localhost:8080/api/product");
+			setProducts(req.data);
+		};
+		getProducts();
+	}, []);
 	return (
 		<Box sx={{ ...styles.root }}>
 			<Box sx={{ ...styles.center }}>
@@ -40,21 +51,13 @@ const ClientLandingPage = () => {
 				Products
 			</Typography>
 			<Grid container spacing={3}>
-				<Grid item xs={3}>
-					<Product />
-				</Grid>
-				<Grid item xs={3}>
-					<Product />
-				</Grid>
-				<Grid item xs={3}>
-					<Product />
-				</Grid>
-				<Grid item xs={3}>
-					<Product />
-				</Grid>
-				<Grid item xs={3}>
-					<Product />
-				</Grid>
+				{Object.keys(products).map((key, index) => {
+					return (
+						<Grid item xs={6} md={3}>
+							<Product product={products[key]} />
+						</Grid>
+					);
+				})}
 			</Grid>
 		</Box>
 	);
