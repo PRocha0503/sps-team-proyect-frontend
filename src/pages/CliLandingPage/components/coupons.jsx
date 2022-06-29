@@ -1,13 +1,38 @@
-import { Box, Typography } from "@mui/material";
+import { Box, Typography, Button } from "@mui/material";
 
 import styles from "../styles/coupon";
 
-const Coupon = () => {
+const Coupon = ({ item }) => {
+	const setImage = (percentage) => {
+		switch (percentage) {
+			case 5:
+				return "http://logobotixx.com/images/5pc_600x456.png";
+			case 10:
+				return "https://www.pngmart.com/files/21/10-Off-PNG-Pic.png";
+			case 15:
+				return "https://mx.isafyi.com/wp-content/uploads/2016/07/15porciento1.png";
+			default:
+				return "https://i.pinimg.com/originals/1d/ee/2c/1dee2c2d20a77b26fde323839c551e53.png";
+		}
+	};
 	return (
 		<Box sx={{ ...styles.root }}>
-			<Typography variant="h3">10% off at Super Cake</Typography>
-			<Box sx={{ ...styles.code }}>
-				<Typography variant="h4">A9839JPS</Typography>
+			<Box
+				sx={{ display: "flex", justifyContent: "center", alignItems: "center" }}
+			>
+				<Box
+					component="img"
+					sx={{
+						...styles.image,
+					}}
+					src={setImage(item.percentage)}
+				/>
+				<Box>
+					<Typography variant="h4">{item.code}</Typography>
+					<Typography variant="desc" color="black">
+						{`${item.percentage}% at ${item.item}`}
+					</Typography>
+				</Box>
 			</Box>
 		</Box>
 	);

@@ -1,7 +1,8 @@
 import { useEffect, useState } from "react";
 import axios from "axios";
 
-import { Box, Typography, Grid } from "@mui/material";
+import { Box, Typography, Grid, Card } from "@mui/material";
+import AspectRatio from "@mui/joy/AspectRatio";
 import styles from "./styles/style";
 
 import Coupon from "./components/coupons";
@@ -9,12 +10,18 @@ import Product from "./components/product";
 
 const ClientLandingPage = () => {
 	const [products, setProducts] = useState([]);
+	const [coupons, setCoupons] = useState([]);
 	useEffect(() => {
 		const getProducts = async () => {
-			const req = await axios.get("http://localhost:8080/api/product");
+			const req = await axios.get("http://localhost:8080/api/products/all");
 			setProducts(req.data);
 		};
+		const getCoupons = async () => {
+			const req = await axios.get("http://localhost:8080/api/coupons/all");
+			setCoupons(req.data);
+		};
 		getProducts();
+		getCoupons();
 	}, []);
 	return (
 		<Box sx={{ ...styles.root }}>
@@ -30,23 +37,15 @@ const ClientLandingPage = () => {
 			<Typography variant="h2" sx={{ marginBottom: 4 }}>
 				Coupons
 			</Typography>
-			<Grid container spacing={3}>
-				<Grid item xs={3}>
-					<Coupon />
-				</Grid>
-				<Grid item xs={3}>
-					<Coupon />
-				</Grid>
-				<Grid item xs={3}>
-					<Coupon />
-				</Grid>
-				<Grid item xs={3}>
-					<Coupon />
-				</Grid>
-				<Grid item xs={3}>
-					<Coupon />
-				</Grid>
-			</Grid>
+			<Box
+				sx={{
+					...styles.couponsContainer,
+				}}
+			>
+				{Object.keys(coupons).map((key, index) => {
+					return <Coupon item={coupons[key]} />;
+				})}
+			</Box>
 			<Typography variant="h2" sx={{ marginBottom: 4, marginTop: 4 }}>
 				Products
 			</Typography>
