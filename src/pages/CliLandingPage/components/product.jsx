@@ -4,7 +4,6 @@ import {
 	Box,
 	Typography,
 	Card,
-	CardActionArea,
 	CardMedia,
 	CardContent,
 	Button,
