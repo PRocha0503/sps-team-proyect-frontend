@@ -1,8 +1,15 @@
 const styles = {
 	root: {
-		width: "8vw",
-		height: "100%",
+		padding: "2rem",
 		backgroundColor: "primary.main",
+	},
+
+	center: {
+		height: "60vh",
+		display: "flex",
+		justifyContent: "center",
+		alignItems: "center",
+		textAlign: "center",
 	},
 };
 
