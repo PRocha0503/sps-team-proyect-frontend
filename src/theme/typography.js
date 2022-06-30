@@ -24,5 +24,11 @@ const typography = {
 		fontWeight: 500,
 		fontSize: "clamp(0.5rem, 2vw + 0.5rem, 1rem)",
 	},
+	company: {
+		fontFamily: ["Inter", "sans-serif"].join(","),
+		color: "white",
+		fontWeight: 900,
+		fontSize: "clamp(0.5rem, 2vw + 1rem, 1.5rem)",
+	},
 };
 export default typography;

@@ -14,20 +14,24 @@ import { style } from "@mui/system";
 import styles from "../styles/product";
 import axios from "axios";
 
-const Product = ({ product }) => {
+const Product = ({ product, modal }) => {
 	const [coupon, setCoupon] = useState(null);
 	const buyItem = async (product) => {
-		const req = await axios({
-			method: "post",
-			url: "http://localhost:8080/api/orders",
-			headers: {},
-			data: {
-				username: "username",
-				productName: product.name,
-				code: coupon ? coupon : "no",
-			},
-		});
-		console.log(req.data);
+		try {
+			const req = await axios({
+				method: "post",
+				url: "http://localhost:8080/api/orders",
+				headers: {},
+				data: {
+					username: "username",
+					productName: product.name,
+					code: coupon ? coupon : "no",
+				},
+			});
+			modal(true);
+		} catch (err) {
+			console.log(err);
+		}
 	};
 	return (
 		<Card sx={{ ...styles.root }}>
