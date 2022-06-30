@@ -17,12 +17,12 @@ ProductCard.propTypes = {
 };
 
 export default function ProductCard({ product }) {
-  const { name, cover, price } = product;
+  const { name, image, price } = product;
 
   return (
     <Card>
       <Box sx={{ pt: '100%', position: 'relative' }}>
-        <ProductImgStyle alt={name} src={cover} />
+        <ProductImgStyle alt={name} src={image} />
       </Box>
 
       <Stack spacing={2} sx={{ p: 3 }}>

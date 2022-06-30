@@ -60,7 +60,7 @@ export default function BusinessSidebar({ isOpenSidebar, onCloseSidebar }) {
             <Avatar alt="photoURL" />
             <Box sx={{ ml: 2 }}>
               <Typography variant="subtitle2" sx={{ color: 'text.primary' }}>
-                James' Cookies LTD
+                John's Candy
               </Typography>
               <Typography variant="body2" sx={{ color: 'text.secondary' }}>
                 Business
