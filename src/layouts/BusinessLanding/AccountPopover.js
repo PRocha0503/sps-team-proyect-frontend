@@ -71,10 +71,10 @@ export default function AccountPopover() {
       >
         <Box sx={{ my: 1.5, px: 2.5 }}>
           <Typography variant="subtitle2" noWrap>
-            James' Cookies LTD
+            John's Candy
           </Typography>
           <Typography variant="body2" sx={{ color: 'text.secondary' }} noWrap>
-            james@cookiesnow.com
+            john@candy.com
           </Typography>
         </Box>
 
