@@ -30,7 +30,7 @@ const Coupon = ({ item }) => {
 				<Box>
 					<Typography variant="h4">{item.code}</Typography>
 					<Typography variant="desc" color="black">
-						{`${item.percentage}% at ${item.item}`}
+						{`${item.percentage}% at ${item.item.name}`}
 					</Typography>
 				</Box>
 			</Box>

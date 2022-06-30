@@ -12,15 +12,22 @@ import {
 import { style } from "@mui/system";
 
 import styles from "../styles/product";
+import axios from "axios";
 
 const Product = ({ product }) => {
 	const [coupon, setCoupon] = useState(null);
-	const buyItem = () => {
-		if (coupon) {
-			console.log(coupon);
-		} else {
-			console.log("no coupon");
-		}
+	const buyItem = async (product) => {
+		const req = await axios({
+			method: "post",
+			url: "http://localhost:8080/api/orders",
+			headers: {},
+			data: {
+				username: "username",
+				productName: product.name,
+				code: coupon ? coupon : "no",
+			},
+		});
+		console.log(req.data);
 	};
 	return (
 		<Card sx={{ ...styles.root }}>
@@ -49,7 +56,7 @@ const Product = ({ product }) => {
 					onChange={(e) => setCoupon(e.target.value)}
 					sx={{ ...styles.txtCoupon }}
 				/>
-				<Button sx={{ ...styles.button }} onClick={buyItem}>
+				<Button sx={{ ...styles.button }} onClick={() => buyItem(product)}>
 					${product.price}
 				</Button>
 			</Box>
