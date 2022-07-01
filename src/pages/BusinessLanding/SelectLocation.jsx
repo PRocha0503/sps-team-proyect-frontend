@@ -61,9 +61,14 @@ const SelectLocation = () => {
             
             getReverseGeocodingData(pos.lat, pos.lng);
           },
+          (error) => {
+            setZoom(5);
+          }
         );
-      } 
-    }, []);
+      } else {
+        setZoom(5);
+      }
+  }, []);
 
   const onClick = (e) => {
     // avoid directly mutating state
@@ -92,37 +97,6 @@ const SelectLocation = () => {
         overflow: "auto",
       }}
     >
-      
-      {/* <label htmlFor="zoom">Zoom</label>
-      <input
-        type="number"
-        id="zoom"
-        name="zoom"
-        value={zoom}
-        onChange={(event) => setZoom(Number(event.target.value))}
-      />
-      <br />
-      <label htmlFor="lat">Latitude</label>
-      <input
-        type="number"
-        id="lat"
-        name="lat"
-        value={center.lat}
-        onChange={(event) =>
-          setCenter({ ...center, lat: Number(event.target.value) })
-        }
-      />
-      <br />
-      <label htmlFor="lng">Longitude</label>
-      <input
-        type="number"
-        id="lng"
-        name="lng"
-        value={center.lng}
-        onChange={(event) =>
-          setCenter({ ...center, lng: Number(event.target.value) })
-        }
-      /> */}
       <h3>{clicks.length === 0 ? "Click on map to add ypur stores" : "Stores"}</h3>
       {clicks.map((latLng, i) => (
         <>
