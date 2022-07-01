@@ -1,4 +1,4 @@
-import { Container, Typography } from '@mui/material';
+import { Button, Container, Typography } from '@mui/material';
 import Page from '../../components/Page'
 import { Chart as ChartJS, 
   ArcElement, 
@@ -15,6 +15,7 @@ import Grid from '@mui/material/Grid';
 import dataAges from './dummy/ages';
 import dataGender from './dummy/gender';
 import dataProducts from './dummy/productsSold';
+import { useNavigate } from 'react-router-dom';
 
 ChartJS.register(
   ArcElement,
@@ -28,12 +29,30 @@ ChartJS.register(
 );
 
 export default function BusinessLanding() {
+  const navigate = useNavigate();
+  const navigateToCupons = () => {
+    navigate('/business/products', {replace: true});
+  };
+  
   return (
     <Page title="Business Landing Page">
       <Container maxWidth="xl">
-        <Typography variant="h4" sx={{ mb: 5 }}>
-          Dashboard
-        </Typography>
+        <Grid container spacing={0}>
+          <Grid item xs={10}>
+            <Typography variant="h4" sx={{ mb: 5 }}>
+              Dashboard
+            </Typography>
+          </Grid>
+          <Grid item xs={2}>
+            <Button
+              onClick={() => {
+                navigateToCupons();
+              }}
+            >
+              See Coupons
+            </Button>
+          </Grid>
+        </Grid>
         <Typography variant="h5" sx={{ mb: 5 }}>
           Users Demography
         </Typography>
