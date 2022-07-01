@@ -8,6 +8,7 @@ import Button from '@mui/material/Button';
 import Paper from '@mui/material/Paper';
 import Typography from '@mui/material/Typography';
 import SelectLocation from './SelectLocation';
+import WeekSchedule from './WeekSchedule';
 
 const steps = [
   {
@@ -16,12 +17,16 @@ const steps = [
     styles: { width: 1000, height: 450 },
     renderPage: () => {
       return <SelectLocation />;
-  }
+    }
   },
   {
-    label: 'Create an ad group',
+    label: 'Select your working hours',
     description:
       'An ad group contains one or more ads which target a shared set of keywords.',
+    styles: { width: 1000, height: 600 },
+    renderPage: () => {
+      return <WeekSchedule />;
+    }
   },
   {
     label: 'Create an ad',

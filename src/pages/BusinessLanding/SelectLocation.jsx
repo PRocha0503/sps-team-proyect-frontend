@@ -1,3 +1,4 @@
+/* eslint-disable no-undef */
 import * as React from "react";
 import { createRoot } from "react-dom/client";
 import { Wrapper } from "@googlemaps/react-wrapper";
