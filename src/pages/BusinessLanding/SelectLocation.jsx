@@ -8,6 +8,7 @@ import CardActions from '@mui/material/CardActions';
 import CardContent from '@mui/material/CardContent';
 import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
+import { TextField } from "@mui/material";
 
 const render = (status) => {
   return <h1>{status}</h1>;
@@ -47,6 +48,7 @@ const SelectLocation = () => {
     lng: 0,
     address: "",
   });
+  const [serviceArea, setServiceArea] = React.useState(0);
 
   React.useEffect(() => {
       if (navigator.geolocation) {
@@ -97,6 +99,18 @@ const SelectLocation = () => {
         overflow: "auto",
       }}
     >
+      <TextField
+        id="outlined-basic"
+        label="Service Area (mts)"
+        variant="outlined"
+        InputProps={{ inputProps: { min: 0, max: 10000 } }}
+        fullWidth={true}
+        onChange={(e) => {
+          setServiceArea(Number(e.target.value));
+        }}
+        type="number"
+      >
+      </TextField>
       <h3>{clicks.length === 0 ? "Click on map to add ypur stores" : "Stores"}</h3>
       {clicks.map((latLng, i) => (
         <>
@@ -118,7 +132,12 @@ const SelectLocation = () => {
         </>
         //<pre key={i}>{JSON.stringify(latLng.toJSON(), null, 2)}</pre>
       ))}
-      <button onClick={() => setClicks([])}>Clear</button>
+      <Button 
+        onClick={() => setClicks([])}
+        variant="contained"
+      >
+        Clear
+      </Button>
     </div>
   );
   // [START maps_react_map_component_app_return]
@@ -133,7 +152,10 @@ const SelectLocation = () => {
           style={{ flexGrow: "1", height: "100%" }}
         >
           {clicks.map((latLng, i) => (
-            <Marker key={i} position={latLng} />
+              <Marker key={i} position={latLng} />
+          ))}
+          {clicks.map((latLng, i) => (
+              <Circle key={i} center={latLng} radius={serviceArea} />
           ))}
         </Map>
       </Wrapper>
@@ -198,6 +220,37 @@ const Map = ({ onClick, onIdle, children, style, ...options }) => {
     </>
   );
   // [END maps_react_map_component_return]
+};
+
+
+const Circle = (options) => {
+  const [circle, setCircle] = React.useState();
+
+  React.useEffect(() => {
+    if (!circle) {
+      setCircle(new google.maps.Circle({
+        strokeColor: "#FF0000",
+        strokeOpacity: 0.8,
+        strokeWeight: 2,
+        fillColor: "#FF0000",
+        fillOpacity: 0.35,
+        ...options,
+      }));
+    }
+
+    // remove marker from map on unmount
+    return () => {
+      if (circle) {
+        circle.setMap(null);
+      }
+    };
+  }, [circle]);
+  React.useEffect(() => {
+    if (circle) {
+      circle.setOptions(options);
+    }
+  }, [circle, options]);
+  return null;
 };
 
 // [START maps_react_map_marker_component]
