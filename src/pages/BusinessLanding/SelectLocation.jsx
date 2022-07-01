@@ -3,6 +3,11 @@ import { createRoot } from "react-dom/client";
 import { Wrapper } from "@googlemaps/react-wrapper";
 import { createCustomEqual } from "fast-equals";
 import { isLatLngLiteral } from "@googlemaps/typescript-guards";
+import Card from '@mui/material/Card';
+import CardActions from '@mui/material/CardActions';
+import CardContent from '@mui/material/CardContent';
+import Button from '@mui/material/Button';
+import Typography from '@mui/material/Typography';
 
 const render = (status) => {
   return <h1>{status}</h1>;
@@ -10,17 +15,64 @@ const render = (status) => {
 
 const API_KEY = process.env.REACT_APP_MAPS_API_KEY;
 
+const getReverseGeocodingData = (lat, lng) => {
+  var latlng = new google.maps.LatLng(lat, lng);
+  // This is making the Geocode request
+  var geocoder = new google.maps.Geocoder();
+  geocoder.geocode({ 'latLng': latlng },  (results, status) =>{
+      if (status !== google.maps.GeocoderStatus.OK) {
+          alert(status);
+      }
+      // This is checking to see if the Geoeode Status is OK before proceeding
+      if (status == google.maps.GeocoderStatus.OK) {
+          console.log(results);
+          var address = (results[0].formatted_address);
+
+          console.log(address);
+          return address;
+      }
+  });
+};
+
 const SelectLocation = () => {
   // [START maps_react_map_component_app_state]
   const [clicks, setClicks] = React.useState([]);
-  const [zoom, setZoom] = React.useState(3); // initial zoom
+  const [zoom, setZoom] = React.useState(15); // initial zoom
   const [center, setCenter] = React.useState({
     lat: 0,
     lng: 0,
   });
+  const [businessLocation, setBusinessLocation] = React.useState({
+    lat: 0,
+    lng: 0,
+    address: "",
+  });
+
+  React.useEffect(() => {
+      if (navigator.geolocation) {
+        navigator.geolocation.getCurrentPosition(
+          (position) => {
+            const pos = {
+              lat: position.coords.latitude,
+              lng: position.coords.longitude,
+            };
+            console.log(pos);
+            setCenter(pos);
+            
+            getReverseGeocodingData(pos.lat, pos.lng);
+          },
+        );
+      } 
+    }, []);
 
   const onClick = (e) => {
     // avoid directly mutating state
+    setBusinessLocation({
+      lat: e.latLng.lat(),
+      lng: e.latLng.lng(),
+      address: getReverseGeocodingData(e.latLng.lat(), e.latLng.lng()),
+    });
+    console.log(businessLocation['address']);
     setClicks([...clicks, e.latLng]);
   };
 
@@ -40,7 +92,8 @@ const SelectLocation = () => {
         overflow: "auto",
       }}
     >
-      <label htmlFor="zoom">Zoom</label>
+      
+      {/* <label htmlFor="zoom">Zoom</label>
       <input
         type="number"
         id="zoom"
@@ -69,10 +122,27 @@ const SelectLocation = () => {
         onChange={(event) =>
           setCenter({ ...center, lng: Number(event.target.value) })
         }
-      />
-      <h3>{clicks.length === 0 ? "Click on map to add markers" : "Clicks"}</h3>
+      /> */}
+      <h3>{clicks.length === 0 ? "Click on map to add ypur stores" : "Stores"}</h3>
       {clicks.map((latLng, i) => (
-        <pre key={i}>{JSON.stringify(latLng.toJSON(), null, 2)}</pre>
+        <>
+          <Card sx={{ minWidth: 250 }}>
+            <CardContent>
+              <Typography sx={{ fontSize: 14 }} color="text.secondary" gutterBottom>
+                Business Location
+              </Typography>
+              <Typography variant="h5" component="div">
+                {console.log(businessLocation['address'])}
+                Store at {businessLocation['address']}
+              </Typography>
+            </CardContent>
+            <CardActions>
+              <Button size="small">Delete</Button>
+            </CardActions>
+          </Card>
+          <br/>
+        </>
+        //<pre key={i}>{JSON.stringify(latLng.toJSON(), null, 2)}</pre>
       ))}
       <button onClick={() => setClicks([])}>Clear</button>
     </div>
@@ -107,43 +177,12 @@ const Map = ({ onClick, onIdle, children, style, ...options }) => {
 
   React.useEffect(() => {
     if (ref.current && !map) {
-      if (navigator.geolocation) {
-        navigator.geolocation.getCurrentPosition(
-          (position) => {
-            const pos = {
-              lat: position.coords.latitude,
-              lng: position.coords.longitude,
-            };
-            console.log(pos);
-            const center = pos;
-            const zoom = 15;
-            let newMap = new window.google.maps.Map(ref.current, {
-              zoom,
-              center,
-              mapTypeControl: false,
-              streetViewControl: false,
-              fullscreenControl: false,
-            });
-
-            setMap(newMap); 
-          },
-          () => {
-            setMap(new window.google.maps.Map(ref.current, {
-              mapTypeControl: false,
-              streetViewControl: false,
-              fullscreenControl: false,
-            }));
-          }
-        );
-      } else {
-        setMap(new window.google.maps.Map(ref.current, {
-          mapTypeControl: false,
-          streetViewControl: false,
-          fullscreenControl: false,
-        }));
-      }
-
       
+      setMap(new window.google.maps.Map(ref.current, {
+        mapTypeControl: false,
+        streetViewControl: false,
+        fullscreenControl: false,
+      }));
     }
   }, [ref, map]);
   // [END maps_react_map_component_add_map_hooks]
