@@ -3,11 +3,12 @@ import { createRoot } from "react-dom/client";
 import { Wrapper } from "@googlemaps/react-wrapper";
 import { createCustomEqual } from "fast-equals";
 import { isLatLngLiteral } from "@googlemaps/typescript-guards";
+
 const render = (status) => {
   return <h1>{status}</h1>;
 };
 
-const API_KEY = "AIzaSyD9vYoG-t4lpVhO_iZZb-B7IQ6LdQi9JME";
+const API_KEY = process.env.REACT_APP_MAPS_API_KEY;
 
 const SelectLocation = () => {
   // [START maps_react_map_component_app_state]
@@ -106,7 +107,43 @@ const Map = ({ onClick, onIdle, children, style, ...options }) => {
 
   React.useEffect(() => {
     if (ref.current && !map) {
-      setMap(new window.google.maps.Map(ref.current, {}));
+      if (navigator.geolocation) {
+        navigator.geolocation.getCurrentPosition(
+          (position) => {
+            const pos = {
+              lat: position.coords.latitude,
+              lng: position.coords.longitude,
+            };
+            console.log(pos);
+            const center = pos;
+            const zoom = 15;
+            let newMap = new window.google.maps.Map(ref.current, {
+              zoom,
+              center,
+              mapTypeControl: false,
+              streetViewControl: false,
+              fullscreenControl: false,
+            });
+
+            setMap(newMap); 
+          },
+          () => {
+            setMap(new window.google.maps.Map(ref.current, {
+              mapTypeControl: false,
+              streetViewControl: false,
+              fullscreenControl: false,
+            }));
+          }
+        );
+      } else {
+        setMap(new window.google.maps.Map(ref.current, {
+          mapTypeControl: false,
+          streetViewControl: false,
+          fullscreenControl: false,
+        }));
+      }
+
+      
     }
   }, [ref, map]);
   // [END maps_react_map_component_add_map_hooks]
