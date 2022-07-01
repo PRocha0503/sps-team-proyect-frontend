@@ -7,22 +7,15 @@ import StepContent from '@mui/material/StepContent';
 import Button from '@mui/material/Button';
 import Paper from '@mui/material/Paper';
 import Typography from '@mui/material/Typography';
+import SelectLocation from './SelectLocation';
 
 const steps = [
   {
-    label: 'Select campaign settings',
-    description: `For each ad campaign that you create, you can control how much
-              you're willing to spend on clicks and conversions, which networks
-              and geographical locations you want your ads to show on, and more.`,
-    buttonxd: () => {
-      return (
-        <Button
-          variant="contained"
-          color="warning"
-        >
-          ALM
-        </Button>
-      );
+    label: 'Select your bussiness location',
+    description: `This will help us to bring you a better experience🥳.`,
+    styles: { width: 1000, height: 450 },
+    renderPage: () => {
+      return <SelectLocation />;
   }
   },
   {
@@ -54,18 +47,6 @@ const BusinessRegistrationForm = () => {
     setActiveStep(0);
   };
 
-  const renderButton = (index) => {
-    return (
-      <Button
-        variant="contained"
-        color="primary"
-        className="button"
-      >
-        {index === 0 ? 'hahaha' : index === 1 ? 'es unoo' : 'idk'}
-      </Button>
-    );
-  }
-
   return (
     <>
       <h1>Registration Form 🚀</h1>
@@ -84,6 +65,11 @@ const BusinessRegistrationForm = () => {
               </StepLabel>
               <StepContent>
                 <Typography>{step.description}</Typography>
+                <Box sx={step.styles}>
+                  {step?.renderPage && step.renderPage()}  
+                </Box>
+                
+                
                 <Box sx={{ mb: 2 }}>
                   <div>
                     <Button
@@ -100,9 +86,9 @@ const BusinessRegistrationForm = () => {
                     >
                       Back
                     </Button>
-                    {step?.buttonxd && step.buttonxd()}
-                    {renderButton(index)}
+                    
                   </div>
+                  
                 </Box>
               </StepContent>
             </Step>
