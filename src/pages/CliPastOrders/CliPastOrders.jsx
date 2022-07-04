@@ -5,10 +5,20 @@ import { Box, Typography, Grid, Button } from "@mui/material";
 import styles from "./styles/style";
 
 import NavBar from "../../components/Navbar";
+import PastOrder from "./components/pastOrder";
 
 const ClientsPastOrders = () => {
-	console.log("HEREEE");
-	useEffect(() => {}, []);
+	const [orders, setOrders] = useState([]);
+	useEffect(() => {
+		const username = "username";
+		const getOrders = async () => {
+			const req = await axios.get(
+				`http://localhost:8080/api/orders/${username}`
+			);
+			setOrders(req.data);
+		};
+		getOrders();
+	}, []);
 
 	return (
 		<>
@@ -21,6 +31,11 @@ const ClientsPastOrders = () => {
 							Check out all the orders you have made in the past.
 						</Typography>
 					</Box>
+				</Box>
+				<Box sx={{ ...styles.pastOrders }}>
+					{Object.keys(orders).map((key, index) => {
+						return <PastOrder order={orders[key]} />;
+					})}
 				</Box>
 			</Box>
 		</>
