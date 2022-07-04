@@ -10,6 +10,12 @@ const styles = {
 		alignItems: "center",
 		textAlign: "center",
 	},
+	pastOrders: {
+		display: "flex",
+		flexDirection: "column",
+		justifyContent: "center",
+		alignItems: "center",
+	},
 };
 
 export default styles;
