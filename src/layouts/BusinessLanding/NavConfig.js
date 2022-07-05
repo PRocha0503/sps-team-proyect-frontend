@@ -24,7 +24,7 @@ const navConfig = [
   },
   {
     title: 'Coupons',
-    path: '/business/blog',
+    path: '/business/coupons',
     icon: getIcon('eva:file-text-fill'),
   },
 ];

@@ -2,7 +2,6 @@ import { Container, Typography } from '@mui/material';
 import { useEffect, useState } from 'react';
 import Page from '../../components/Page';
 import { ProductTable } from '../../components/Product/index';
-import dummy_products from './dummy/products';
 import axios from 'axios';
 
 export default function Products() {

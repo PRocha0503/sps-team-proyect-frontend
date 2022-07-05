@@ -5,6 +5,7 @@ import ClientsLandingPage from "./pages/CliLandingPage/CliLandingPage.jsx";
 import ClientsPastOrders from "./pages/CliPastOrders/CliPastOrders.jsx";
 import BusinessLandingLayout from "./layouts/BusinessLanding/BusinessLandingLayout.js";
 import Products from "./pages/BusinessLanding/Products.jsx";
+import Coupons from "./pages/BusinessLanding/Coupons.jsx";
 
 export default function Router() {
 	return useRoutes([
@@ -29,6 +30,7 @@ export default function Router() {
 			children: [
 				{ path: "app", element: <BusinessLanding /> },
 				{ path: "products", element: <Products /> },
+				{ path: "coupons", element: <Coupons /> },
 			],
 		},
 		{
