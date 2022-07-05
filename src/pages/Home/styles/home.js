@@ -1,10 +1,17 @@
 const styles = {
 	root: {
-		width: "100%",
-		height: "50 vh",
+		padding: "2rem",
 		backgroundColor: "primary.main",
-		padding: "4rem",
-		margin: "0rem",
+	},
+	intro: {
+		display: "flex",
+		height: "95vh",
+		paddingTop: "6rem",
+	},
+	secondSquare: {
+		display: "flex",
+		flexDirection: "column",
+		alignItems: "flex-end",
 	},
 };
 
