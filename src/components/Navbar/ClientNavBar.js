@@ -46,7 +46,7 @@ const ClientNavBar = () => {
 						return (
 							<Grid
 								item
-								xs={3}
+								xs={4}
 								onClick={() => console.log("YES")}
 								sx={{ cursor: "pointer" }}
 							>
