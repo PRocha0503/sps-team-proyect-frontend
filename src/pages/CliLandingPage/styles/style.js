@@ -22,6 +22,12 @@ const styles = {
 		},
 		"::-webkit-scrollbar": { display: "none" },
 	},
+	modalButton: {
+		width: "100%",
+		backgroundColor: "primary.main",
+		color: "white",
+		marginTop: "2rem",
+	},
 };
 
 export default styles;

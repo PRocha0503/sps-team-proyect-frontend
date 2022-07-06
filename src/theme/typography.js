@@ -3,7 +3,7 @@ const typography = {
 	h1: {
 		color: "white",
 		fontWeight: 500,
-		fontSize: "clamp(2rem, 7vw + 0.5rem, 3.5rem)",
+		fontSize: "clamp(1.8rem, 4vw + 1rem, 3.5rem)",
 	},
 	h2: {
 		color: "white",
@@ -23,6 +23,12 @@ const typography = {
 		color: "white",
 		fontWeight: 500,
 		fontSize: "clamp(0.5rem, 2vw + 0.5rem, 1rem)",
+	},
+	company: {
+		fontFamily: ["Inter", "sans-serif"].join(","),
+		color: "white",
+		fontWeight: 900,
+		fontSize: "clamp(0.5rem, 2vw + 1rem, 1.5rem)",
 	},
 };
 export default typography;
