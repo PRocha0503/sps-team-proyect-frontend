@@ -1,4 +1,4 @@
-import { Box, Grid, Typography } from "@mui/material";
+import { Box, Grid, Typography, Button } from "@mui/material";
 import styles from "./styles/home";
 import image from "../../assets/Phone.png";
 
@@ -10,7 +10,7 @@ const Home = () => {
 			<NavBar type={"user"} />
 			<Box sx={{ ...styles.root }}>
 				<Grid container spacing={3} sx={{ ...styles.intro }}>
-					<Grid item xs={5}>
+					<Grid item xs={6}>
 						<Box
 							sx={{
 								display: "flex",
@@ -29,21 +29,24 @@ const Home = () => {
 						</Box>
 					</Grid>
 					<Grid item xs={7}>
-						<Box sx={{ height: "50%" }}>
-							<Typography variant="h4" sx={{ color: "white", marginBottom: 1 }}>
+						<Box sx={{ ...styles.firstSquare }}>
+							<Typography variant="h4" sx={{ ...styles.title }}>
 								Shop local, support your community
 							</Typography>
-							<Typography variant="desc">
+							<Typography variant="desc" sx={{ ...styles.desc }}>
 								Search for the products you are looking for in your community.
 							</Typography>
+							<Button sx={{ ...styles.button }}>Join as customer</Button>
 						</Box>
 						<Box sx={{ ...styles.secondSquare }}>
-							<Typography variant="h4" sx={{ color: "white", marginBottom: 1 }}>
+							<Typography variant="h4" sx={{ ...styles.title }}>
 								Get people what they need
 							</Typography>
-							<Typography variant="desc" align="right">
-								Search for the products you are looking for in your community.
+							<Typography variant="desc" align="right" sx={{ ...styles.desc }}>
+								Get more people to know your small brand and know all about your
+								amazing products.
 							</Typography>
+							<Button sx={{ ...styles.button }}>Join as business</Button>
 						</Box>
 					</Grid>
 				</Grid>

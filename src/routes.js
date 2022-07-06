@@ -6,6 +6,7 @@ import ClientsPastOrders from "./pages/CliPastOrders/CliPastOrders.jsx";
 import BusinessLandingLayout from "./layouts/BusinessLanding/BusinessLandingLayout.js";
 import Products from "./pages/BusinessLanding/Products.jsx";
 import Coupons from "./pages/BusinessLanding/Coupons.jsx";
+import Login from ".//pages/Login/Login.jsx";
 
 export default function Router() {
 	return useRoutes([
@@ -37,6 +38,12 @@ export default function Router() {
 			id: 3,
 			path: "/clients/orders",
 			element: <ClientsPastOrders />,
+			exact: true,
+		},
+		{
+			id: 4,
+			path: "/login",
+			element: <Login />,
 			exact: true,
 		},
 	]);
