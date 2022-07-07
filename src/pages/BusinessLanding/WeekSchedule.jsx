@@ -13,11 +13,29 @@ const WeekSchedule = () => {
   const [hourStart, setHourStart] = React.useState(new Date(0, 0, 0, 0, 0));
   const [hourEnd, setHourEnd] = React.useState(new Date(0, 0, 0, 0, 0));
   const weekDays = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'];
+  
+  let weekScheduleMap = new Map();
+  weekDays.forEach(element => 
+    weekScheduleMap.set(
+      element, 
+      {
+        start: "00:00", //Date(0, 0, 0, 0, 0), 
+        end: "00:00" // Date(0, 0, 0, 0, 0)
+      }
+    )
+  );
+
+  let weekScheduleObj = Array.from(weekScheduleMap).reduce((obj, [key, value]) => (
+    Object.assign(obj, { [key]: value }) 
+  ), {}); 
 
   const [alignment, setAlignment] = React.useState(0);
+  const [schedule, setSchedule] = React.useState(weekScheduleObj);
 
   const handleAlignment = (event, newAlignment) => {
-    setAlignment(newAlignment);
+    if (newAlignment) {
+      setAlignment(newAlignment);
+    }
   };
 
   return (
@@ -35,8 +53,15 @@ const WeekSchedule = () => {
             key={index}
             onClick={() => {
               //setValue(new Date(value.getFullYear(), value.getMonth(), value.getDate() + index))}
-              console.log(hourStart, hourEnd, day);
-              //console.log(value.getFullYear(), value.getMonth(), value.getDate(), value.getHours(), value.getMinutes(), index, weekDays[index])
+              console.log(schedule);
+              let hourStart = schedule[weekDays[index]].start;
+              let hourEnd = schedule[weekDays[index]].end;
+              
+              const hourStartFormated = hourStart.split(':');
+              const hourEndFormated = hourEnd.split(':');
+
+              setHourStart(new Date(0, 0, 0, hourStartFormated[0], hourStartFormated[1]));
+              setHourEnd(new Date(0, 0, 0, hourEndFormated[0], hourEndFormated[1]));
             }}
           >
             {day}
@@ -55,6 +80,12 @@ const WeekSchedule = () => {
             value={hourStart}
             onChange={(newValue) => {
               setHourStart(newValue);
+              
+              setSchedule(prevSchedule => {
+                let newSchedule = prevSchedule;
+                newSchedule[weekDays[alignment]].start = newValue.getHours() + ":" + newValue.getMinutes();
+                return newSchedule;
+              });
             }}
             renderInput={(params) => <TextField {...params} />}
           />
@@ -65,6 +96,16 @@ const WeekSchedule = () => {
             value={hourEnd}
             onChange={(newValue) => {
               setHourEnd(newValue);
+
+              setSchedule(prevSchedule => {
+                let newSchedule = prevSchedule;
+                console.log(weekDays);
+                console.log(alignment);
+                console.log(weekDays[alignment]);
+                console.log(newSchedule);
+                newSchedule[weekDays[alignment]].end = newValue.getHours() + ":" + newValue.getMinutes();
+                return newSchedule;
+              });
             }}
             renderInput={(params) => <TextField {...params} />}
           />
