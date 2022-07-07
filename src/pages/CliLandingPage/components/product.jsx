@@ -16,14 +16,16 @@ import axios from "axios";
 
 const Product = ({ product, modal }) => {
 	const [coupon, setCoupon] = useState(null);
+	const { token } = JSON.parse(localStorage.getItem("token")) || {};
 	const buyItem = async (product) => {
 		try {
 			const req = await axios({
 				method: "post",
 				url: "http://localhost:8080/api/orders",
-				headers: {},
+				headers: {
+					"x-token": token,
+				},
 				data: {
-					username: "username",
 					productName: product.name,
 					code: coupon ? coupon : "no",
 				},

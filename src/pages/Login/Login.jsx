@@ -1,5 +1,6 @@
 import { useState } from "react";
 import axios from "axios";
+import { useNavigate } from "react-router-dom";
 
 import { Box, Grid, Typography, Button, TextField } from "@mui/material";
 import styles from "./styles/style";
@@ -7,6 +8,8 @@ import styles from "./styles/style";
 import Support from "../../assets/support.svg";
 
 const Login = () => {
+	const navigate = useNavigate();
+
 	const [user, setUser] = useState("");
 	const [password, setPassword] = useState("");
 	const [error, setError] = useState(false);
@@ -24,10 +27,12 @@ const Login = () => {
 					password: password ? password : "empty",
 				},
 			});
-			console.log(data);
+			setError(false);
+			localStorage.setItem("token", JSON.stringify({ token: data.token }));
+			navigate("/clients");
 		} catch (err) {
-			console.log("ERROR", err);
-			setError(err);
+			console.log("ERROR", "Incorrect login credentials");
+			setError("Incorrect login credentials");
 		}
 	};
 
@@ -104,6 +109,16 @@ const Login = () => {
 								sx={{ ...styles.input }}
 							/>
 						</Box>
+						{error ? (
+							<Typography
+								variant="desc"
+								sx={{ color: "red", paddingBottom: 3 }}
+							>
+								{error}
+							</Typography>
+						) : (
+							<></>
+						)}
 						<Button onClick={login}>LOGIN</Button>
 					</Box>
 				</Grid>
