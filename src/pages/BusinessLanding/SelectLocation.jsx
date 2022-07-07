@@ -38,7 +38,7 @@ const getReverseGeocodingData = (lat, lng) => {
   });
 };
 
-const SelectLocation = () => {
+const SelectLocation = ({businessLocation, setBusinessLocation, serviceArea, setServiceArea}) => {
   // [START maps_react_map_component_app_state]
   const [clicks, setClicks] = React.useState([]);
   const [zoom, setZoom] = React.useState(15); // initial zoom
@@ -46,12 +46,6 @@ const SelectLocation = () => {
     lat: 0,
     lng: 0,
   });
-  const [businessLocation, setBusinessLocation] = React.useState({
-    lat: 0,
-    lng: 0,
-    address: "",
-  });
-  const [serviceArea, setServiceArea] = React.useState(0);
 
   React.useEffect(() => {
       if (navigator.geolocation) {
@@ -77,15 +71,16 @@ const SelectLocation = () => {
 
   const onClick = async (e) => {
     // avoid directly mutating state
+
+    setClicks([e.latLng]);
+
     setBusinessLocation({
       lat: e.latLng.lat(),
       lng: e.latLng.lng(),
       address: await getReverseGeocodingData(e.latLng.lat(), e.latLng.lng()),
     });
-    // console.log(businessLocation['address']);
-    console.log('reverse', await getReverseGeocodingData(e.latLng.lat(), e.latLng.lng()));
-    console.log('business', businessLocation);
-    setClicks([...clicks, e.latLng]);
+
+    // setClicks([...clicks, e.latLng]); // Support for multiple stores
   };
 
   const onIdle = (m) => {
@@ -117,6 +112,7 @@ const SelectLocation = () => {
       >
       </TextField>
       <h3>{clicks.length === 0 ? "Click on map to add ypur stores" : "Stores"}</h3>
+      {console.log('CLICKS!!!!!!',clicks)}
       {clicks.map((latLng, i) => (
         <>
           <Card sx={{ minWidth: 250 }}>

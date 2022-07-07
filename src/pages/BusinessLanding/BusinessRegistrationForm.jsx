@@ -10,38 +10,51 @@ import Typography from '@mui/material/Typography';
 import SelectLocation from './SelectLocation';
 import WeekSchedule from './WeekSchedule';
 
-const steps = [
-  {
-    label: 'Select your bussiness location',
-    description: `This will help us to bring you a better experience🥳.`,
-    styles: { width: 1000, height: 450 },
-    renderPage: () => {
-      return <SelectLocation />;
-    }
-  },
-  {
-    label: 'Select your working hours',
-    description:
-      'An ad group contains one or more ads which target a shared set of keywords.',
-    styles: { width: 1000, height: 600 },
-    renderPage: () => {
-      return <WeekSchedule />;
-    }
-  },
-  {
-    label: 'Create an ad',
-    description: `Try out different ad text to see what brings in the most customers,
-              and learn how to enhance your ads using features like ad extensions.
-              If you run into any problems with your ads, find out how to tell if
-              they're running and how to resolve approval issues.`,
-  },
-];
-
+const Steps = ({businessLocation, setBusinessLocation, serviceArea, setServiceArea}) => {
+  return [
+    {
+      label: 'Select your bussiness location',
+      description: `This will help us to bring you a better experience🥳.`,
+      styles: { width: 1000, height: 450 },
+      renderPage: () => {
+        return <SelectLocation 
+          businessLocation={businessLocation} 
+          setBusinessLocation={setBusinessLocation} 
+          serviceArea={serviceArea} setServiceArea={setServiceArea}
+        />;
+      }
+    },
+    {
+      label: 'Select your working hours',
+      description:
+        'An ad group contains one or more ads which target a shared set of keywords.',
+      styles: { width: 1000, height: 600 },
+      renderPage: () => {
+        return <WeekSchedule />;
+      }
+    },
+    {
+      label: 'Create an ad',
+      description: `Try out different ad text to see what brings in the most customers,
+                and learn how to enhance your ads using features like ad extensions.
+                If you run into any problems with your ads, find out how to tell if
+                they're running and how to resolve approval issues.`,
+    },
+  ];
+}
 const BusinessRegistrationForm = () => {
+  const [businessLocation, setBusinessLocation] = React.useState({
+    lat: 0,
+    lng: 0,
+    address: "",
+  });
+  const [serviceArea, setServiceArea] = React.useState(0);
   const [activeStep, setActiveStep] = React.useState(0);
+  const steps = Steps({businessLocation, setBusinessLocation, serviceArea, setServiceArea});
 
   const handleNext = () => {
     setActiveStep((prevActiveStep) => prevActiveStep + 1);
+    console.log('FINAL', businessLocation, serviceArea);
   };
 
   const handleBack = () => {
