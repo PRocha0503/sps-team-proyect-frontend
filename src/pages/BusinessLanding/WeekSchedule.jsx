@@ -42,7 +42,7 @@ const WeekSchedule = () => {
   const [schedule, setSchedule] = React.useState(weekScheduleObj);
 
   const handleAlignment = (event, newAlignment) => {
-    if (newAlignment) {
+    if (newAlignment !== null) {
       setAlignment(newAlignment);
     }
   };
