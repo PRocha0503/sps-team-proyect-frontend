@@ -1,10 +1,18 @@
+import { useNavigate } from "react-router-dom";
 import { Box, Grid, Typography, Button } from "@mui/material";
+
 import styles from "./styles/home";
 import image from "../../assets/Phone.png";
 
 import NavBar from "../../components/Navbar";
 
 const Home = () => {
+	const navigate = useNavigate();
+
+	const goToLogin = () => {
+		navigate("/login");
+	};
+
 	return (
 		<>
 			<NavBar type={"user"} />
@@ -36,7 +44,9 @@ const Home = () => {
 							<Typography variant="desc" sx={{ ...styles.desc }}>
 								Search for the products you are looking for in your community.
 							</Typography>
-							<Button sx={{ ...styles.button }}>Join as customer</Button>
+							<Button onClick={goToLogin} sx={{ ...styles.button }}>
+								Join as customer
+							</Button>
 						</Box>
 						<Box sx={{ ...styles.secondSquare }}>
 							<Typography variant="h4" sx={{ ...styles.title }}>
@@ -46,7 +56,9 @@ const Home = () => {
 								Get more people to know your small brand and know all about your
 								amazing products.
 							</Typography>
-							<Button sx={{ ...styles.button }}>Join as business</Button>
+							<Button onClick={goToLogin} sx={{ ...styles.button }}>
+								Join as business
+							</Button>
 						</Box>
 					</Grid>
 				</Grid>
