@@ -247,7 +247,6 @@ const Circle = (options) => {
         strokeWeight: 2,
         fillColor: "#FF0000",
         fillOpacity: 0.35,
-        ...options,
       }));
     }
 
