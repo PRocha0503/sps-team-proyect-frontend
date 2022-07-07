@@ -9,6 +9,15 @@ import Alert from '@mui/material/Alert';
 import ToggleButton from "@mui/material/ToggleButton";
 import ToggleButtonGroup from "@mui/material/ToggleButtonGroup";
 
+const completeGranularityTime = (date) => {
+  return ('0' + date).slice(-2);
+}
+
+const completeDateFormat = (date) => {
+  let formattedDate = date.split(':');
+  return completeGranularityTime(formattedDate[0]) + ":" + completeGranularityTime(formattedDate[1]);
+}
+
 const WeekSchedule = () => {
   const [hourStart, setHourStart] = React.useState(new Date(0, 0, 0, 0, 0));
   const [hourEnd, setHourEnd] = React.useState(new Date(0, 0, 0, 0, 0));
@@ -83,7 +92,7 @@ const WeekSchedule = () => {
               
               setSchedule(prevSchedule => {
                 let newSchedule = prevSchedule;
-                newSchedule[weekDays[alignment]].start = newValue.getHours() + ":" + newValue.getMinutes();
+                newSchedule[weekDays[alignment]].start = completeDateFormat(newValue.getHours() + ":" + newValue.getMinutes());
                 return newSchedule;
               });
             }}
@@ -103,7 +112,7 @@ const WeekSchedule = () => {
                 console.log(alignment);
                 console.log(weekDays[alignment]);
                 console.log(newSchedule);
-                newSchedule[weekDays[alignment]].end = newValue.getHours() + ":" + newValue.getMinutes();
+                newSchedule[weekDays[alignment]].end = completeDateFormat(newValue.getHours() + ":" + newValue.getMinutes());
                 return newSchedule;
               });
             }}
