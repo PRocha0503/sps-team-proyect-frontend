@@ -126,7 +126,19 @@ const SelectLocation = ({businessLocation, setBusinessLocation, serviceArea, set
               </Typography>
             </CardContent>
             <CardActions>
-              <Button size="small">Delete</Button>
+              <Button 
+                size="small"
+                onClick={() => {
+                  setClicks(clicks.filter((_, index) => index !== i));
+                  setBusinessLocation({
+                    lat: 0,
+                    lng: 0,
+                    address: "",
+                  });
+                }}
+              >
+                Delete
+              </Button>
             </CardActions>
           </Card>
           <br/>
@@ -136,7 +148,6 @@ const SelectLocation = ({businessLocation, setBusinessLocation, serviceArea, set
       <Button 
         onClick={() => {
           setClicks([]);
-          console.log(businessLocation);
         }}
         variant="contained"
       >
