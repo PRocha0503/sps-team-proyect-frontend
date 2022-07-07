@@ -20,19 +20,21 @@ const API_KEY = process.env.REACT_APP_MAPS_API_KEY;
 const getReverseGeocodingData = (lat, lng) => {
   var latlng = new google.maps.LatLng(lat, lng);
   // This is making the Geocode request
-  var geocoder = new google.maps.Geocoder();
-  geocoder.geocode({ 'latLng': latlng },  (results, status) =>{
-      if (status !== google.maps.GeocoderStatus.OK) {
-          alert(status);
-      }
-      // This is checking to see if the Geoeode Status is OK before proceeding
-      if (status == google.maps.GeocoderStatus.OK) {
-          console.log(results);
-          var address = (results[0].formatted_address);
+  return new Promise((resolve, reject) => {
 
-          console.log(address);
-          return address;
-      }
+    var geocoder = new google.maps.Geocoder();
+    geocoder.geocode({ 'latLng': latlng },  (results, status) =>{
+        if (status !== google.maps.GeocoderStatus.OK) {
+            reject(status);
+        }
+        // This is checking to see if the Geoeode Status is OK before proceeding
+        if (status == google.maps.GeocoderStatus.OK) {
+            console.log(results);
+            let address = (results[0].formatted_address);
+
+            resolve(address);
+        }
+    });
   });
 };
 
@@ -54,7 +56,7 @@ const SelectLocation = () => {
   React.useEffect(() => {
       if (navigator.geolocation) {
         navigator.geolocation.getCurrentPosition(
-          (position) => {
+          async (position) => {
             const pos = {
               lat: position.coords.latitude,
               lng: position.coords.longitude,
@@ -62,7 +64,7 @@ const SelectLocation = () => {
             console.log(pos);
             setCenter(pos);
             
-            getReverseGeocodingData(pos.lat, pos.lng);
+            await getReverseGeocodingData(pos.lat, pos.lng);
           },
           (error) => {
             setZoom(5);
@@ -73,14 +75,16 @@ const SelectLocation = () => {
       }
   }, []);
 
-  const onClick = (e) => {
+  const onClick = async (e) => {
     // avoid directly mutating state
     setBusinessLocation({
       lat: e.latLng.lat(),
       lng: e.latLng.lng(),
-      address: getReverseGeocodingData(e.latLng.lat(), e.latLng.lng()),
+      address: await getReverseGeocodingData(e.latLng.lat(), e.latLng.lng()),
     });
-    console.log(businessLocation['address']);
+    // console.log(businessLocation['address']);
+    console.log('reverse', await getReverseGeocodingData(e.latLng.lat(), e.latLng.lng()));
+    console.log('business', businessLocation);
     setClicks([...clicks, e.latLng]);
   };
 
@@ -121,8 +125,8 @@ const SelectLocation = () => {
                 Business Location
               </Typography>
               <Typography variant="h5" component="div">
-                {console.log(businessLocation['address'])}
-                Store at {businessLocation['address']}
+                {/*console.log(businessLocation['address'])*/}
+                Store at {businessLocation.address}
               </Typography>
             </CardContent>
             <CardActions>
@@ -134,7 +138,10 @@ const SelectLocation = () => {
         //<pre key={i}>{JSON.stringify(latLng.toJSON(), null, 2)}</pre>
       ))}
       <Button 
-        onClick={() => setClicks([])}
+        onClick={() => {
+          setClicks([]);
+          console.log(businessLocation);
+        }}
         variant="contained"
       >
         Clear
@@ -155,9 +162,14 @@ const SelectLocation = () => {
           {clicks.map((latLng, i) => (
               <Marker key={i} position={latLng} />
           ))}
-          {clicks.map((latLng, i) => (
+          {clicks.map((latLng, i) => {
+            console.log(latLng);
+            console.log(i);
+            console.log(clicks);
+            return (
+
               <Circle key={i} center={latLng} radius={serviceArea} />
-          ))}
+          )})}
         </Map>
       </Wrapper>
       {/* Basic form for controlling center and zoom of map. */}
