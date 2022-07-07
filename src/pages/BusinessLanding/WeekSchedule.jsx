@@ -8,6 +8,7 @@ import Stack from "@mui/material/Stack";
 import Alert from '@mui/material/Alert';
 import ToggleButton from "@mui/material/ToggleButton";
 import ToggleButtonGroup from "@mui/material/ToggleButtonGroup";
+import { useEffect } from "react";
 
 const completeGranularityTime = (date) => {
   return ('0' + date).slice(-2);
@@ -19,6 +20,8 @@ const completeDateFormat = (date) => {
 }
 
 const WeekSchedule = () => {
+  const [showAlert, setShowAlert] = useState(false);
+
   const [hourStart, setHourStart] = React.useState(new Date(0, 0, 0, 0, 0));
   const [hourEnd, setHourEnd] = React.useState(new Date(0, 0, 0, 0, 0));
   const weekDays = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'];
@@ -42,10 +45,20 @@ const WeekSchedule = () => {
   const [schedule, setSchedule] = React.useState(weekScheduleObj);
 
   const handleAlignment = (event, newAlignment) => {
+
     if (newAlignment !== null) {
       setAlignment(newAlignment);
     }
   };
+
+  useEffect (() => {
+    if(hourStart.getTime() > hourEnd.getTime()) {
+      setShowAlert(true);
+    }
+    else {
+      setShowAlert(false);
+    }
+  }, [hourStart, hourEnd]);
 
   return (
     <>
@@ -72,6 +85,7 @@ const WeekSchedule = () => {
               setHourStart(new Date(0, 0, 0, hourStartFormated[0], hourStartFormated[1]));
               setHourEnd(new Date(0, 0, 0, hourEndFormated[0], hourEndFormated[1]));
             }}
+            disabled={showAlert}
           >
             {day}
           </ToggleButton>
@@ -81,7 +95,12 @@ const WeekSchedule = () => {
       </ToggleButtonGroup>
       
       <br />
-      <Alert severity="warning">The start hour must be before the end hour</Alert>
+      { showAlert && 
+          (
+            <Alert severity="warning">The start hour must be before the end hour</Alert>
+          )
+      }
+      
       <Stack direction="row" spacing={2}>
         
         <LocalizationProvider dateAdapter={AdapterDateFns}>
