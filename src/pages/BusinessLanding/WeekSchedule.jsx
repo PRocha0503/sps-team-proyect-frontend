@@ -19,30 +19,14 @@ const completeDateFormat = (date) => {
   return completeGranularityTime(formattedDate[0]) + ":" + completeGranularityTime(formattedDate[1]);
 }
 
-const WeekSchedule = () => {
+const WeekSchedule = ({ schedule, setSchedule }) => {
   const [showAlert, setShowAlert] = useState(false);
 
   const [hourStart, setHourStart] = React.useState(new Date(0, 0, 0, 0, 0));
   const [hourEnd, setHourEnd] = React.useState(new Date(0, 0, 0, 0, 0));
   const weekDays = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'];
   
-  let weekScheduleMap = new Map();
-  weekDays.forEach(element => 
-    weekScheduleMap.set(
-      element, 
-      {
-        start: "00:00", //Date(0, 0, 0, 0, 0), 
-        end: "00:00" // Date(0, 0, 0, 0, 0)
-      }
-    )
-  );
-
-  let weekScheduleObj = Array.from(weekScheduleMap).reduce((obj, [key, value]) => (
-    Object.assign(obj, { [key]: value }) 
-  ), {}); 
-
   const [alignment, setAlignment] = React.useState(0);
-  const [schedule, setSchedule] = React.useState(weekScheduleObj);
 
   const handleAlignment = (event, newAlignment) => {
 

@@ -139,6 +139,11 @@ const SelectLocation = ({businessLocation, setBusinessLocation, serviceArea, set
       <Button 
         onClick={() => {
           setClicks([]);
+          setBusinessLocation({
+            lat: 0,
+            lng: 0,
+            address: "",
+          });
         }}
         variant="contained"
       >
