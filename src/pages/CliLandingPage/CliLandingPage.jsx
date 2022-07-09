@@ -1,8 +1,10 @@
 import { useEffect, useState } from "react";
 import axios from "axios";
+import { useNavigate } from "react-router-dom";
 
 import { Box, Typography, Grid, Button } from "@mui/material";
 import styles from "./styles/style";
+import validateJWT from "../../helpers/validateJWT";
 
 import Coupon from "./components/coupons";
 import Product from "./components/product";
@@ -10,18 +12,45 @@ import ModalSkeleton from "../../components/Modal/modal";
 import NavBar from "../../components/Navbar";
 
 const ClientLandingPage = () => {
+	const navigate = useNavigate();
+
+	const [user, setUser] = useState({});
 	const [products, setProducts] = useState([]);
 	const [coupons, setCoupons] = useState([]);
 	const [modal, setModal] = useState(false);
+	const { token } = JSON.parse(localStorage.getItem("token")) || {};
+
 	useEffect(() => {
+		const validate = async () => {
+			try {
+				const user = await validateJWT(token);
+				setUser(user);
+			} catch (err) {
+				navigate("/login");
+			}
+		};
+
 		const getProducts = async () => {
-			const req = await axios.get("http://localhost:8080/api/products/all");
+			const req = await axios({
+				method: "GET",
+				url: `http://localhost:8080/api/products/all`,
+				headers: {
+					"x-token": token,
+				},
+			});
 			setProducts(req.data);
 		};
 		const getCoupons = async () => {
-			const req = await axios.get("http://localhost:8080/api/coupons/all");
+			const req = await axios({
+				method: "GET",
+				url: `http://localhost:8080/api/coupons/all`,
+				headers: {
+					"x-token": token,
+				},
+			});
 			setCoupons(req.data);
 		};
+		validate();
 		getProducts();
 		getCoupons();
 	}, []);

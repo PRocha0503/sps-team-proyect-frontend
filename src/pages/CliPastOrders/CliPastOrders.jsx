@@ -1,22 +1,40 @@
 import { useEffect, useState } from "react";
 import axios from "axios";
+import { useNavigate } from "react-router-dom";
 
 import { Box, Typography, Grid, Button } from "@mui/material";
 import styles from "./styles/style";
+import validateJWT from "../../helpers/validateJWT";
 
 import NavBar from "../../components/Navbar";
 import PastOrder from "./components/pastOrder";
 
 const ClientsPastOrders = () => {
+	const navigate = useNavigate();
+
 	const [orders, setOrders] = useState([]);
+	const { token } = JSON.parse(localStorage.getItem("token")) || {};
+
 	useEffect(() => {
-		const username = "username";
+		const validate = async () => {
+			try {
+				const user = await validateJWT(token);
+				// setUser(user);
+			} catch (err) {
+				navigate("/login");
+			}
+		};
 		const getOrders = async () => {
-			const req = await axios.get(
-				`http://localhost:8080/api/orders/${username}`
-			);
+			const req = await axios({
+				method: "GET",
+				url: `http://localhost:8080/api/orders`,
+				headers: {
+					"x-token": token,
+				},
+			});
 			setOrders(req.data);
 		};
+		validate();
 		getOrders();
 	}, []);
 

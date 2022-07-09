@@ -5,6 +5,7 @@ const styles = {
 	},
 	intro: {
 		display: "flex",
+		flexDirection: "column",
 		height: "95vh",
 		paddingTop: "6rem",
 	},
@@ -12,7 +13,7 @@ const styles = {
 		display: "flex",
 		flexDirection: "column",
 		alignItems: "flex-start",
-		height: "50%",
+		height: "80%",
 	},
 	secondSquare: {
 		display: "flex",
