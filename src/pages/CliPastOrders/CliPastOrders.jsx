@@ -40,7 +40,7 @@ const ClientsPastOrders = () => {
 
 	return (
 		<>
-			<NavBar type={"user"} />
+			<NavBar type={"customer"} />
 			<Box sx={{ ...styles.root }}>
 				<Box sx={{ ...styles.center }}>
 					<Box sx={{ ...styles.text }}>
