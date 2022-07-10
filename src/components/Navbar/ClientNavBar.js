@@ -1,10 +1,38 @@
 import { Box, Typography, Grid, Button } from "@mui/material";
 import { Link } from "react-router-dom";
+import axios from 'axios';
 
 import styles from "./styles/style";
+import { useEffect, useState } from "react";
 
 const ClientNavBar = () => {
-	const user = null;
+	const user = localStorage.getItem('token');
+	const token = JSON.parse(user)['token'];
+	const [userData, setUserData] = useState({});
+
+	useEffect(() => {
+
+		const getUserType = async () => {
+			console.log(user);
+			console.log(token);
+			try {
+				const userType = await axios.get(`${process.env.REACT_APP_API}/api/auth/validate`, {
+					headers: {
+						'x-token': token,
+					}
+				});
+				console.log(userType.data);
+				setUserData(userType.data);
+
+			}
+			catch (err) {
+				console.log(err);
+			}
+			
+		};
+		getUserType();
+	}, []);
+	
 	const navItems = [
 		{
 			show: "Marketplace",
@@ -13,6 +41,11 @@ const ClientNavBar = () => {
 		{
 			show: "Past Orders",
 			tab: "/clients/orders",
+		},
+		{
+			show: "Business Profile",
+			tab: "/business",
+			userType: "business", 
 		},
 	];
 	return (
@@ -50,9 +83,11 @@ const ClientNavBar = () => {
 								onClick={() => console.log("YES")}
 								sx={{ cursor: "pointer" }}
 							>
-								<Link to={item.tab} style={{ textDecoration: "none" }}>
-									<Typography variant="desc">{item.show}</Typography>
-								</Link>
+								{(!item.userType || (item?.userType === userData.type)) && (
+									<Link to={item.tab} style={{ textDecoration: "none" }}>
+										<Typography variant="desc">{item.show}</Typography>
+									</Link>
+								)}
 							</Grid>
 						);
 					})}
