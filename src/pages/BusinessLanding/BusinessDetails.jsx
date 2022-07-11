@@ -14,32 +14,44 @@ import 'react-phone-input-2/lib/material.css';
 
 const BusinessDetails = () => {
   const [showAlert, setShowAlert] = useState(false);
-  const [businessName, setBusinessName] = useState('');
-  const [businessType, setBusinessType] = useState('');
-  const [phone, setPhone] = useState(0);
-  const [areaCode, setAreaCode] = useState(0);
+
+  const [businessBasicInfo, setBusinessBasicInfo] = useState({
+    name: '',
+    type: '',
+  });
+  const [phone, setPhone] = useState({
+    number: 0,
+    areaCode: 0,
+  });
 
 
   useEffect(() => {
     const phoneWithoutAreaCode = () => {
-      return phone.slice(areaCode.length).length;
+      return phone.number.slice(phone.areaCode.length).length;
     }
 
-    if(businessName==='' || businessType==='' || phone===0 || phoneWithoutAreaCode(phone)!==10) {
+    if(businessBasicInfo.name==='' || businessBasicInfo.type==='' || phone.number===0 || phoneWithoutAreaCode(phone.number)!==10) {
       setShowAlert(true);
     }
     else {
       setShowAlert(false);
     }
-  }, [businessName, businessType, phone, areaCode]);
+  }, [businessBasicInfo.name, businessBasicInfo.type, phone]);
 
   const handleChange = (event) => {
-    setBusinessType(event.target.value);
+    // event.target.value
+    setBusinessBasicInfo(prevState => ({
+      ...prevState,
+      type: event.target.value,
+    }));
   };
 
   const handleOnChange = (value, data, event, formattedValue) => {
-    setPhone(value);
-    setAreaCode(data.dialCode);
+    setPhone(prevState => ({
+      ...prevState,
+      number: value,
+      areaCode: data.dialCode,
+    }));
   }
   
 
@@ -60,7 +72,11 @@ const BusinessDetails = () => {
             variant="outlined"
             fullWidth={true}
             onChange={(e) => {
-              setBusinessName(e.target.value);
+              setBusinessBasicInfo(prevState => ({
+                ...prevState,
+                name: e.target.value,
+              }));
+              
             }}
             type="text"
           >
@@ -72,7 +88,7 @@ const BusinessDetails = () => {
             <Select
               labelId="business-type-select-label"
               id="business-type-select"
-              value={businessType}
+              value={businessBasicInfo.type}
               label="businessType"
               onChange={handleChange}
             >
@@ -85,7 +101,7 @@ const BusinessDetails = () => {
 
         <PhoneInput
           country={'us'}
-          value={phone}
+          value={phone.number}
           onChange={handleOnChange} // phone => setPhone(phone)}
         />
       </Stack>
