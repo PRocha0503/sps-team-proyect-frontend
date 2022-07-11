@@ -48,14 +48,14 @@ const Steps = ({businessLocation, setBusinessLocation, serviceArea, setServiceAr
     },
     {
       label: 'Name your business ✨',
-      description: `This will help us to bring you a better experience🥳.`,
-      styles: { width: 450, height: 450 },
+      description: `Last details to land your business!!!`,
+      styles: { width: 450, height: 300 },
       renderPage: () => {
         return <BusinessDetails />;
       }
     },
     {
-      label: 'Create an ad',
+      label: 'Almost done!',
       renderPage: () => {
         return (
           <>
@@ -182,7 +182,7 @@ const BusinessRegistrationForm = () => {
                     <Button
                       variant="contained"
                       onClick={handleNext}
-                      disabled={businessLocation.address === "" || serviceArea === 0}
+                      disabled={businessLocation.address === "" || serviceArea === 0 } // TODO: Add disbled for the name of the business incomplete
                       sx={{ mt: 1, mr: 1 }}
                     >
                       {index === steps.length - 1 ? 'Finish' : 'Continue'}
