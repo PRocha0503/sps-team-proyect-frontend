@@ -19,6 +19,8 @@ import TableCell from '@mui/material/TableCell';
 import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
+import { Input } from '@mui/material';
+import BusinessDetails from './BusinessDetails';
 
 
 const Steps = ({businessLocation, setBusinessLocation, serviceArea, setServiceArea, schedule, setSchedule}) => {
@@ -42,6 +44,14 @@ const Steps = ({businessLocation, setBusinessLocation, serviceArea, setServiceAr
       styles: { width: 1000, height: 600 },
       renderPage: () => {
         return <WeekSchedule schedule={schedule} setSchedule={setSchedule} />;
+      }
+    },
+    {
+      label: 'Name your business ✨',
+      description: `This will help us to bring you a better experience🥳.`,
+      styles: { width: 450, height: 450 },
+      renderPage: () => {
+        return <BusinessDetails />;
       }
     },
     {

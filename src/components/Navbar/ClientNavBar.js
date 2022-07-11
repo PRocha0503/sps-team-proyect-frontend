@@ -11,24 +11,18 @@ const ClientNavBar = () => {
 	const [userData, setUserData] = useState({});
 
 	useEffect(() => {
-
 		const getUserType = async () => {
-			console.log(user);
-			console.log(token);
 			try {
 				const userType = await axios.get(`${process.env.REACT_APP_API}/api/auth/validate`, {
 					headers: {
 						'x-token': token,
 					}
 				});
-				console.log(userType.data);
 				setUserData(userType.data);
-
 			}
 			catch (err) {
 				console.log(err);
 			}
-			
 		};
 		getUserType();
 	}, []);
