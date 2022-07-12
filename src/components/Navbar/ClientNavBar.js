@@ -20,7 +20,6 @@ import { Link } from "react-router-dom";
 import styles from "./styles/style";
 
 const ClientNavBar = ({ user }) => {
-	console.log(user);
 	const [menu, setMenu] = useState(null);
 	const handleClick = (setState) => (event) => {
 		setState(event.currentTarget);

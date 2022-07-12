@@ -5,6 +5,7 @@ import { useNavigate } from "react-router-dom";
 import { Box, Typography, Grid, Button } from "@mui/material";
 import styles from "./styles/style";
 import validateJWT from "../../helpers/validateJWT";
+import isNewCustomer from "../../helpers/isNewCustomer";
 
 import Coupon from "./components/coupons";
 import Product from "./components/product";
@@ -24,6 +25,12 @@ const ClientLandingPage = () => {
 		const validate = async () => {
 			try {
 				const user = await validateJWT(token);
+				try {
+					await isNewCustomer(token);
+				} catch (error) {
+					console.log(error);
+					navigate("/clients/profile");
+				}
 				setUser(user);
 			} catch (err) {
 				navigate("/login");
