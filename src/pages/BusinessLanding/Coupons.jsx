@@ -5,18 +5,34 @@ import Coupon from "../CliLandingPage/components/coupons";
 import axios from 'axios';
 import styles from "./styles/Coupon";
 import { useNavigate } from 'react-router-dom';
+import validateJWT from '../../helpers/validateJWT';
 
 
 export default function Coupons() {
   const [coupons, setCoupons] = useState([]);
   const navigate = useNavigate();
 
+  const [user, setUser] = useState(0);
+	const { token } = JSON.parse(localStorage.getItem("token")) || {};
+  
   useEffect(() => {
-    const getCoupons = async () => {
-        const req = await axios.get("http://localhost:8080/api/coupons/owner/?owner=John's Candy");
-        setCoupons(req.data);
+    const validate = async () => {
+      try {
+        const user = await validateJWT(token);
+				setUser(user);
+        
+        const getCoupons = async () => {
+          const url = `${process.env.REACT_APP_API}/api/coupons/owner/?owner=${user.username}`;
+          const req = await axios.get(url);
+          setCoupons(req.data);
+        };
+        getCoupons();
+
+			} catch (err) {
+				console.log(err);
+			}
 		};
-		getCoupons();
+		validate();
 	}, []);
 
   return (
