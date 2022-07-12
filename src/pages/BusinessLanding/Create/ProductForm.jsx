@@ -1,6 +1,7 @@
-import React, { useState, useRef } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import { Grid, TextField, Button, Typography } from "@mui/material";
 import axios from "axios";
+import validateJWT from "../../../helpers/validateJWT";
 
 const defaultValues = {
   name: "",
@@ -8,12 +9,27 @@ const defaultValues = {
   description: "",
   image: "",
   category: "",
-  owner: "John's Candy"
+  owner: ""
 };
 
 const ProductForm = () => {
   const [formValues, setFormValues] = useState(defaultValues);
   const responseRef = React.useRef();
+  const [user, setUser] = useState(0);
+  const { token } = JSON.parse(localStorage.getItem("token")) || {};
+  
+  useEffect(() => {
+    const validate = async () => {
+      try {
+        const user = await validateJWT(token);
+        setUser(user);
+        defaultValues.owner = user.username;
+      } catch (err) {
+        console.log(err);
+      }
+    };
+    validate();
+  }, []);
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
@@ -25,8 +41,9 @@ const ProductForm = () => {
 
   const handleSubmit = (event) => {
     const element = responseRef.current;
-
-    axios.post('http://localhost:8080/api/products', formValues)
+    const url = `${process.env.REACT_APP_API}/api/products`;
+    
+    axios.post(url, formValues)
     .then(response => element.innerHTML = response.data.id )
     .catch(error => {
         element.innerHTML = `Error: ${error.message}`;

@@ -31,7 +31,7 @@ ChartJS.register(
 export default function BusinessLanding() {
   const navigate = useNavigate();
   const navigateToCupons = () => {
-    navigate('/business/products', {replace: true});
+    navigate('/business/coupons', {replace: true});
   };
   
   return (

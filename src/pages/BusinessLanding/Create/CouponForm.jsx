@@ -1,16 +1,35 @@
-import React, { useState, useRef } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import { Grid, TextField, Button, Typography } from "@mui/material";
 import axios from "axios";
+import validateJWT from "../../../helpers/validateJWT";
 
 const defaultValues = {
   item: "",
   percentage: 0,
-  owner: "John's Candy"
+  owner: ""
 };
 
 const CouponForm = () => {
     const [formValues, setFormValues] = useState(defaultValues);
+    const [user, setUser] = useState(0);
+    const { token } = JSON.parse(localStorage.getItem("token")) || {};
+    
+    useEffect(() => {
+      const validate = async () => {
+        try {
+          const user = await validateJWT(token);
+          setUser(user);
+          defaultValues.owner = user.username;
+        } catch (err) {
+          console.log(err);
+        }
+      };
+      validate();
+    }, []);
+  
+
     const responseRef = React.useRef();
+
     const handleInputChange = (e) => {
     const { name, value } = e.target;
     setFormValues({
@@ -21,8 +40,9 @@ const CouponForm = () => {
 
   const handleSubmit = (event) => {
     const element = responseRef.current;
-
-    axios.post('http://localhost:8080/api/coupons', formValues)
+    const url = `${process.env.REACT_APP_API}/api/coupons`;
+    
+    axios.post(url, formValues)
     .then(response => element.innerHTML = response.data.id )
     .catch(error => {
         element.innerHTML = `Error: ${error.message}`;
