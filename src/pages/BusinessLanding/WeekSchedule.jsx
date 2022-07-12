@@ -8,17 +8,41 @@ import Stack from "@mui/material/Stack";
 import Alert from '@mui/material/Alert';
 import ToggleButton from "@mui/material/ToggleButton";
 import ToggleButtonGroup from "@mui/material/ToggleButtonGroup";
+import { useEffect } from "react";
 
-const WeekSchedule = () => {
+const completeGranularityTime = (date) => {
+  return ('0' + date).slice(-2);
+}
+
+const completeDateFormat = (date) => {
+  let formattedDate = date.split(':');
+  return completeGranularityTime(formattedDate[0]) + ":" + completeGranularityTime(formattedDate[1]);
+}
+
+const WeekSchedule = ({ schedule, setSchedule }) => {
+  const [showAlert, setShowAlert] = useState(false);
+
   const [hourStart, setHourStart] = React.useState(new Date(0, 0, 0, 0, 0));
   const [hourEnd, setHourEnd] = React.useState(new Date(0, 0, 0, 0, 0));
   const weekDays = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'];
-
+  
   const [alignment, setAlignment] = React.useState(0);
 
   const handleAlignment = (event, newAlignment) => {
-    setAlignment(newAlignment);
+
+    if (newAlignment !== null) {
+      setAlignment(newAlignment);
+    }
   };
+
+  useEffect (() => {
+    if(hourStart.getTime() > hourEnd.getTime()) {
+      setShowAlert(true);
+    }
+    else {
+      setShowAlert(false);
+    }
+  }, [hourStart, hourEnd]);
 
   return (
     <>
@@ -35,9 +59,17 @@ const WeekSchedule = () => {
             key={index}
             onClick={() => {
               //setValue(new Date(value.getFullYear(), value.getMonth(), value.getDate() + index))}
-              console.log(hourStart, hourEnd, day);
-              //console.log(value.getFullYear(), value.getMonth(), value.getDate(), value.getHours(), value.getMinutes(), index, weekDays[index])
+              console.log(schedule);
+              let hourStart = schedule[weekDays[index]].start;
+              let hourEnd = schedule[weekDays[index]].end;
+              
+              const hourStartFormated = hourStart.split(':');
+              const hourEndFormated = hourEnd.split(':');
+
+              setHourStart(new Date(0, 0, 0, hourStartFormated[0], hourStartFormated[1]));
+              setHourEnd(new Date(0, 0, 0, hourEndFormated[0], hourEndFormated[1]));
             }}
+            disabled={showAlert}
           >
             {day}
           </ToggleButton>
@@ -47,7 +79,12 @@ const WeekSchedule = () => {
       </ToggleButtonGroup>
       
       <br />
-      <Alert severity="warning">The start hour must be before the end hour</Alert>
+      { showAlert && 
+          (
+            <Alert severity="warning">The start hour must be before the end hour</Alert>
+          )
+      }
+      
       <Stack direction="row" spacing={2}>
         
         <LocalizationProvider dateAdapter={AdapterDateFns}>
@@ -55,6 +92,12 @@ const WeekSchedule = () => {
             value={hourStart}
             onChange={(newValue) => {
               setHourStart(newValue);
+              
+              setSchedule(prevSchedule => {
+                let newSchedule = prevSchedule;
+                newSchedule[weekDays[alignment]].start = completeDateFormat(newValue.getHours() + ":" + newValue.getMinutes());
+                return newSchedule;
+              });
             }}
             renderInput={(params) => <TextField {...params} />}
           />
@@ -65,6 +108,16 @@ const WeekSchedule = () => {
             value={hourEnd}
             onChange={(newValue) => {
               setHourEnd(newValue);
+
+              setSchedule(prevSchedule => {
+                let newSchedule = prevSchedule;
+                console.log(weekDays);
+                console.log(alignment);
+                console.log(weekDays[alignment]);
+                console.log(newSchedule);
+                newSchedule[weekDays[alignment]].end = completeDateFormat(newValue.getHours() + ":" + newValue.getMinutes());
+                return newSchedule;
+              });
             }}
             renderInput={(params) => <TextField {...params} />}
           />
