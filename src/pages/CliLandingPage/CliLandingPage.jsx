@@ -14,7 +14,7 @@ import NavBar from "../../components/Navbar";
 const ClientLandingPage = () => {
 	const navigate = useNavigate();
 
-	const [user, setUser] = useState({});
+	const [user, setUser] = useState();
 	const [products, setProducts] = useState([]);
 	const [coupons, setCoupons] = useState([]);
 	const [modal, setModal] = useState(false);
@@ -78,7 +78,7 @@ const ClientLandingPage = () => {
 
 	return (
 		<>
-			<NavBar type={"user"} />
+			<NavBar type={"customer"} user={user} />
 			{modal ? (
 				<ModalSkeleton open={modal}>{modalContent()}</ModalSkeleton>
 			) : (

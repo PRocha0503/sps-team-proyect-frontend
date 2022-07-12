@@ -1,10 +1,37 @@
-import { Box, Typography, Grid, Button } from "@mui/material";
+import { useState } from "react";
+
+import {
+	Box,
+	Typography,
+	Grid,
+	Button,
+	Avatar,
+	Link as LinkMUI,
+	Menu,
+	MenuItem,
+	ListItemText,
+	ListItemIcon,
+} from "@mui/material";
+import PersonIcon from "@mui/icons-material/Person";
+import ExitToAppIcon from "@mui/icons-material/ExitToApp";
+
 import { Link } from "react-router-dom";
 
 import styles from "./styles/style";
 
-const ClientNavBar = () => {
-	const user = null;
+const ClientNavBar = ({ user }) => {
+	console.log(user);
+	const [menu, setMenu] = useState(null);
+	const handleClick = (setState) => (event) => {
+		setState(event.currentTarget);
+	};
+	const handleClose = (setState) => () => {
+		setState(null);
+	};
+	const logout = () => {
+		localStorage.removeItem("token");
+		window.location.reload();
+	};
 	const navItems = [
 		{
 			show: "Marketplace",
@@ -28,7 +55,9 @@ const ClientNavBar = () => {
 							alignItems: "center",
 						}}
 					>
-						<Typography variant="company">sholo</Typography>
+						<Link to="/">
+							<Typography variant="company">sholo</Typography>
+						</Link>
 					</Box>
 				</Grid>
 				{/* Navitems */}
@@ -42,22 +71,25 @@ const ClientNavBar = () => {
 						alignItems: "center",
 					}}
 				>
-					{navItems.map((item) => {
-						return (
-							<Grid
-								item
-								xs={4}
-								onClick={() => console.log("YES")}
-								sx={{ cursor: "pointer" }}
-							>
-								<Link to={item.tab} style={{ textDecoration: "none" }}>
-									<Typography variant="desc">{item.show}</Typography>
-								</Link>
-							</Grid>
-						);
-					})}
+					{user ? (
+						navItems.map((item) => {
+							return (
+								<Grid
+									item
+									xs={4}
+									onClick={() => console.log("YES")}
+									sx={{ cursor: "pointer" }}
+								>
+									<Link to={item.tab} style={{ textDecoration: "none" }}>
+										<Typography variant="desc">{item.show}</Typography>
+									</Link>
+								</Grid>
+							);
+						})
+					) : (
+						<></>
+					)}
 				</Grid>
-				{/* LogIn/User info */}
 				<Grid
 					container
 					item
@@ -66,17 +98,81 @@ const ClientNavBar = () => {
 						display: "flex",
 						height: "100%",
 						alignItems: "center",
+						justifyContent: "flex-end",
 					}}
 				>
 					{user ? (
-						<>{/* //TODO implement if there is user */}</>
+						<Grid item xs={5}>
+							<LinkMUI onClick={handleClick(setMenu)}>
+								<Avatar sx={{ bgcolor: "white", color: "black" }}>
+									{user && user.username[0]}
+								</Avatar>
+							</LinkMUI>
+							<Menu
+								anchorEl={menu}
+								keepMounted
+								anchorOrigin={{
+									vertical: "bottom",
+									horizontal: "left",
+								}}
+								transformOrigin={{
+									vertical: "top",
+									horizontal: "center",
+								}}
+								open={Boolean(menu)}
+								onClose={handleClose(setMenu)}
+								PaperProps={{
+									elevation: 0,
+									sx: {
+										overflow: "visible",
+										filter: "drop-shadow(0px 2px 8px rgba(0,0,0,0.1))",
+										mt: 1.5,
+										borderRadius: 6,
+
+										"&:before": {
+											content: '""',
+											display: "block",
+											position: "absolute",
+											top: 0,
+											right: "48%",
+											width: 10,
+											height: 10,
+											bgcolor: "background.paper",
+											transform: "translateY(-50%) rotate(45deg)",
+											zIndex: 0,
+										},
+									},
+								}}
+							>
+								<LinkMUI href="/profile">
+									<MenuItem>
+										<ListItemIcon sx={{ color: "black" }}>
+											<PersonIcon fontSize="small" />
+										</ListItemIcon>
+										<ListItemText sx={{ color: "black" }}>Profile</ListItemText>
+									</MenuItem>
+								</LinkMUI>
+								<LinkMUI onClick={logout}>
+									<MenuItem>
+										<ListItemIcon sx={{ color: "black" }}>
+											<ExitToAppIcon fontSize="small" />
+										</ListItemIcon>
+										<ListItemText sx={{ color: "black" }}>Logout</ListItemText>
+									</MenuItem>
+								</LinkMUI>
+							</Menu>
+						</Grid>
 					) : (
 						<>
 							<Grid item xs={5}>
-								<Button sx={{ ...styles.authButtons }}>LOGIN</Button>
+								<Link to="/login">
+									<Button sx={{ ...styles.authButtons }}>LOGIN</Button>
+								</Link>
 							</Grid>
 							<Grid item xs={5}>
-								<Button sx={{ ...styles.authButtons }}>SIGNUP</Button>
+								<Link to="signup">
+									<Button sx={{ ...styles.authButtons }}>SIGNUP</Button>
+								</Link>
 							</Grid>
 						</>
 					)}
