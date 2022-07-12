@@ -1,21 +1,35 @@
+import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { Box, Grid, Typography, Button } from "@mui/material";
 
+import NavBar from "../../components/Navbar";
+import validateJWT from "././../../helpers/validateJWT";
 import styles from "./styles/home";
 import image from "../../assets/Phone.png";
 
-import NavBar from "../../components/Navbar";
-
 const Home = () => {
 	const navigate = useNavigate();
+	const [user, setUser] = useState();
+	const { token } = JSON.parse(localStorage.getItem("token")) || {};
 
+	useEffect(() => {
+		const validate = async () => {
+			try {
+				const user = await validateJWT(token);
+				setUser(user);
+			} catch (err) {
+				console.log(err);
+			}
+		};
+		validate();
+	}, []);
 	const goToLogin = () => {
-		navigate("/login");
+		navigate("/signup");
 	};
 
 	return (
 		<>
-			<NavBar type={"user"} />
+			<NavBar type={"customer"} user={user} />
 			<Box sx={{ ...styles.root }}>
 				<Grid container spacing={3} sx={{ ...styles.intro }}>
 					<Grid item xs={6}>

@@ -7,7 +7,10 @@ import BusinessLandingLayout from "./layouts/BusinessLanding/BusinessLandingLayo
 import Products from "./pages/BusinessLanding/Products.jsx";
 import BusinessHome from "./pages/BusinessLanding/BusinessHome.jsx";
 import Coupons from "./pages/BusinessLanding/Coupons.jsx";
-import Login from ".//pages/Login/Login.jsx";
+import Login from "./pages/Login/Login.jsx";
+import Signup from "./pages/Signup/Signup.jsx";
+import CreateProducts from "./pages/BusinessLanding/Create/CreateProducts.jsx";
+import CreateCoupons from "./pages/BusinessLanding/Create/CreateCoupons.jsx";
 
 export default function Router() {
 	return useRoutes([
@@ -30,11 +33,12 @@ export default function Router() {
 			path: "/business",
 			element: <BusinessLandingLayout />,
 			children: [
-				{ path: 'user', element: <BusinessHome /> },
+				{ path: "user", element: <BusinessHome /> },
 				{ path: "app", element: <BusinessLanding /> },
 				{ path: "products", element: <Products /> },
 				{ path: "coupons", element: <Coupons /> },
-
+				{ path: "products/create", element: <CreateProducts /> },
+				{ path: "coupons/create", element: <CreateCoupons /> }, 
 			],
 		},
 		{
@@ -47,6 +51,12 @@ export default function Router() {
 			id: 4,
 			path: "/login",
 			element: <Login />,
+			exact: true,
+		},
+		{
+			id: 4,
+			path: "/signup",
+			element: <Signup />,
 			exact: true,
 		},
 	]);
