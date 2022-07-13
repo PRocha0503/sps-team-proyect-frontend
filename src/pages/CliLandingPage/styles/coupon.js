@@ -3,6 +3,7 @@ const styles = {
 		backgroundColor: "white",
 		borderRadius: "1rem",
 		padding: "0.9rem",
+		height: "8rem",
 	},
 	image: {
 		width: "7rem",

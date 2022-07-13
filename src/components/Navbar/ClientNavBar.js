@@ -79,7 +79,6 @@ const ClientNavBar = ({ user }) => {
 				>
 					{user ? (
 						navItems.map((item) => {
-							console.log(user);
 							if (user.type === item.userType) {
 								return (
 									<Grid

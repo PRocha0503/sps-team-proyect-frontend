@@ -28,6 +28,16 @@ const styles = {
 		color: "white",
 		marginTop: "2rem",
 	},
+	cat: {
+		backgroundColor: "white",
+
+		marginBottom: "2rem",
+		marginRight: "1rem",
+		":hover": {
+			color: "black",
+			backgroundColor: "white",
+		},
+	},
 };
 
 export default styles;
