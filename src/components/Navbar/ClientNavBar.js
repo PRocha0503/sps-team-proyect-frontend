@@ -143,7 +143,7 @@ const ClientNavBar = ({ user }) => {
 									},
 								}}
 							>
-								<LinkMUI href="/profile">
+								<LinkMUI href="/clients/profile">
 									<MenuItem>
 										<ListItemIcon sx={{ color: "black" }}>
 											<PersonIcon fontSize="small" />
