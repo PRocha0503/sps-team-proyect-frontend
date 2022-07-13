@@ -1,3 +1,5 @@
+import { useEffect, useState } from "react";
+
 import {
 	Box,
 	Typography,
@@ -14,10 +16,8 @@ import PersonIcon from "@mui/icons-material/Person";
 import ExitToAppIcon from "@mui/icons-material/ExitToApp";
 
 import { Link } from "react-router-dom";
-import axios from 'axios';
 
 import styles from "./styles/style";
-import { useEffect, useState } from "react";
 
 const ClientNavBar = ({ user }) => {
 	const [menu, setMenu] = useState(null);
@@ -35,15 +35,17 @@ const ClientNavBar = ({ user }) => {
 		{
 			show: "Marketplace",
 			tab: "/clients",
+			userType: "customer",
 		},
 		{
 			show: "Past Orders",
 			tab: "/clients/orders",
+			userType: "customer",
 		},
 		{
 			show: "Business Profile",
 			tab: "/business",
-			userType: "business", 
+			userType: "business",
 		},
 	];
 	return (
@@ -77,18 +79,21 @@ const ClientNavBar = ({ user }) => {
 				>
 					{user ? (
 						navItems.map((item) => {
-							return (
-								<Grid
-									item
-									xs={4}
-									onClick={() => console.log("YES")}
-									sx={{ cursor: "pointer" }}
-								>
-									<Link to={item.tab} style={{ textDecoration: "none" }}>
-										<Typography variant="desc">{item.show}</Typography>
-									</Link>
-								</Grid>
-							);
+							console.log(user);
+							if (user.type === item.userType) {
+								return (
+									<Grid
+										item
+										xs={4}
+										onClick={() => console.log("YES")}
+										sx={{ cursor: "pointer" }}
+									>
+										<Link to={item.tab} style={{ textDecoration: "none" }}>
+											<Typography variant="desc">{item.show}</Typography>
+										</Link>
+									</Grid>
+								);
+							}
 						})
 					) : (
 						<></>
@@ -148,7 +153,13 @@ const ClientNavBar = ({ user }) => {
 									},
 								}}
 							>
-								<LinkMUI href="/clients/profile">
+								<LinkMUI
+									href={
+										user.type == "customer"
+											? "/clients/profile"
+											: "business/products"
+									}
+								>
 									<MenuItem>
 										<ListItemIcon sx={{ color: "black" }}>
 											<PersonIcon fontSize="small" />

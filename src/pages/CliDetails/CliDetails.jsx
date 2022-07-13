@@ -44,6 +44,7 @@ const CliDetails = () => {
 					age,
 				},
 			});
+			navigate("/clients");
 		} catch (err) {
 			console.log;
 		}
