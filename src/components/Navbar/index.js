@@ -3,10 +3,10 @@ import { Box } from "@mui/material";
 
 import styles from "./styles/style";
 
-const NavBar = ({ type }) => {
+const NavBar = ({ type, user }) => {
 	return (
 		<Box sx={{ ...styles.root }}>
-			{type === "user" ? <ClientNavBar /> : <></>}
+			{type === "customer" ? <ClientNavBar user={user} /> : <></>}
 		</Box>
 	);
 };
