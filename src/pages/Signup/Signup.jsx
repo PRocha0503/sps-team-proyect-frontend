@@ -4,6 +4,8 @@ import { useNavigate } from "react-router-dom";
 
 import { Box, Grid, Typography, Button, TextField } from "@mui/material";
 import styles from "./styles/style";
+import validateJWT from "../../helpers/validateJWT";
+import NavBar from "../../components/Navbar";
 
 import SingupImage from "../../assets/signup.svg";
 
@@ -46,6 +48,7 @@ const Signup = () => {
 
 	return (
 		<>
+			<NavBar type={"customer"} />
 			<Grid container sx={{ ...styles.root }}>
 				<Grid item xs={6}>
 					<Box

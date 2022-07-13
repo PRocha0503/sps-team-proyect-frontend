@@ -19,6 +19,9 @@ const ClientsPastOrders = () => {
 		const validate = async () => {
 			try {
 				const user = await validateJWT(token);
+				if (user.type == "business") {
+					navigate("/business/products");
+				}
 				setUser(user);
 			} catch (err) {
 				navigate("/login");

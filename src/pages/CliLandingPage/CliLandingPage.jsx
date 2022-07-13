@@ -25,8 +25,11 @@ const ClientLandingPage = () => {
 		const validate = async () => {
 			try {
 				const user = await validateJWT(token);
+				if (user.type == "business") {
+					navigate("/business/products");
+				}
 				try {
-					await isNewCustomer(token);
+					// await isNewCustomer(token);
 				} catch (error) {
 					console.log(error);
 					navigate("/clients/profile");
