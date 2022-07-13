@@ -11,6 +11,7 @@ import Coupon from "./components/coupons";
 import Product from "./components/product";
 import ModalSkeleton from "../../components/Modal/modal";
 import NavBar from "../../components/Navbar";
+import ca from "date-fns/esm/locale/ca/index.js";
 
 const ClientLandingPage = () => {
 	const navigate = useNavigate();
@@ -19,6 +20,7 @@ const ClientLandingPage = () => {
 	const [products, setProducts] = useState([]);
 	const [coupons, setCoupons] = useState([]);
 	const [modal, setModal] = useState(false);
+	const [category, setCategory] = useState("All Products");
 	const { token } = JSON.parse(localStorage.getItem("token")) || {};
 
 	useEffect(() => {
@@ -41,14 +43,27 @@ const ClientLandingPage = () => {
 		};
 
 		const getProducts = async () => {
-			const req = await axios({
+			const { data } = await axios({
 				method: "GET",
 				url: `http://localhost:8080/api/products/all`,
 				headers: {
 					"x-token": token,
 				},
 			});
-			setProducts(req.data);
+
+			const p = Object.keys(data).map(function (key) {
+				return data[key];
+			});
+			const categories = {};
+			p.map((item, i) => {
+				if (item.category in categories) {
+					categories[item.category].push(item);
+				} else {
+					categories[item.category] = [item];
+				}
+			});
+
+			setProducts(categories);
 		};
 		const getCoupons = async () => {
 			const req = await axios({
@@ -119,15 +134,93 @@ const ClientLandingPage = () => {
 				<Typography variant="h2" sx={{ marginBottom: 4, marginTop: 4 }}>
 					Products
 				</Typography>
-				<Grid container spacing={3}>
-					{Object.keys(products).map((key, index) => {
+				{/* Categories */}
+				<Button
+					sx={{ ...styles.cat }}
+					onClick={() => setCategory("All Products")}
+				>
+					All Products
+				</Button>
+				{Object.keys(products).map((key, index) => {
+					return (
+						<Button
+							sx={{
+								...styles.cat,
+								color: category == key ? "black" : "primary.main",
+							}}
+							onClick={() => setCategory(key)}
+						>
+							{key}
+						</Button>
+					);
+				})}
+
+				{Object.keys(products).map((key, index) => {
+					console.log(category);
+					if (category == "All Products") {
 						return (
-							<Grid item xs={6} md={3}>
-								<Product product={products[key]} modal={setModal} />
-							</Grid>
+							<>
+								<Typography
+									variant="h4"
+									sx={{
+										color: "white",
+										marginTop: "1rem",
+										marginBottom: "1rem",
+									}}
+								>
+									{key.toUpperCase()}
+								</Typography>
+								<Grid container spacing={3}>
+									{products[key].map((item, i) => {
+										return (
+											<Grid item xs={6} md={3}>
+												<Product product={item} modal={setModal} />
+											</Grid>
+										);
+									})}
+								</Grid>
+							</>
 						);
-					})}
-				</Grid>
+					} else {
+						if (key == category) {
+							console.log("HERE");
+							return (
+								<>
+									<Typography
+										variant="h4"
+										sx={{
+											color: "white",
+											marginTop: "1rem",
+											marginBottom: "1rem",
+										}}
+									>
+										{key.toUpperCase()}
+									</Typography>
+									<Grid container spacing={3}>
+										{products[key].map((item, i) => {
+											return (
+												<Grid item xs={6} md={3}>
+													<Product product={item} modal={setModal} />
+												</Grid>
+											);
+										})}
+									</Grid>
+									;
+								</>
+							);
+						}
+					}
+				})}
+
+				{/* <Grid container spacing={3}>
+				// 	{Object.keys(products	console.log("HERE");).map((key, index) => {
+				// 		return (
+				// 			<Grid item xs={6} md={3}>
+				// 				<Product product={products[key]} modal={setModal} />
+				// 			</Grid>
+				// 		);
+				// 	})}
+				// </Grid> */}
 			</Box>
 		</>
 	);

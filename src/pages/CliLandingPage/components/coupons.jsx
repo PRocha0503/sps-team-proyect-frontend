@@ -5,11 +5,11 @@ import styles from "../styles/coupon";
 const Coupon = ({ item }) => {
 	const setImage = (percentage) => {
 		switch (percentage) {
-			case 5:
-				return "http://logobotixx.com/images/5pc_600x456.png";
-			case 10:
+			case "5":
+				return "https://cdn.pixabay.com/photo/2017/07/26/04/38/discount-2540425_960_720.png";
+			case "10":
 				return "https://www.pngmart.com/files/21/10-Off-PNG-Pic.png";
-			case 15:
+			case "15":
 				return "https://mx.isafyi.com/wp-content/uploads/2016/07/15porciento1.png";
 			default:
 				return "https://i.pinimg.com/originals/1d/ee/2c/1dee2c2d20a77b26fde323839c551e53.png";

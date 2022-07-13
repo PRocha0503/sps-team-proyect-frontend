@@ -1,7 +1,7 @@
 const styles = {
 	root: {
 		width: "90%",
-		height: "95%",
+		height: "30rem",
 		backgroundColor: "white",
 		borderRadius: "1rem",
 		padding: "0.9rem",
