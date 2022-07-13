@@ -22,8 +22,20 @@ import TableRow from '@mui/material/TableRow';
 import { Input } from '@mui/material';
 import BusinessDetails from './BusinessDetails';
 
+import axios from 'axios';
 
-const Steps = ({businessLocation, setBusinessLocation, serviceArea, setServiceArea, schedule, setSchedule}) => {
+const Steps = ({
+  businessLocation, 
+  setBusinessLocation,
+  serviceArea,
+  setServiceArea,
+  schedule,
+  setSchedule,
+  businessBasicInfo,
+  setBusinessBasicInfo,
+  phone,
+  setPhone
+}) => {
   return [
     {
       label: 'Select your bussiness location',
@@ -51,7 +63,12 @@ const Steps = ({businessLocation, setBusinessLocation, serviceArea, setServiceAr
       description: `Last details to land your business!!!`,
       styles: { width: 450, height: 300 },
       renderPage: () => {
-        return <BusinessDetails />;
+        return <BusinessDetails 
+          businessBasicInfo={businessBasicInfo}
+          setBusinessBasicInfo={setBusinessBasicInfo}
+          phone={phone} 
+          setPhone={setPhone}
+        />;
       }
     },
     {
@@ -138,8 +155,28 @@ const BusinessRegistrationForm = () => {
   ), {}); 
 
   const [schedule, setSchedule] = React.useState(weekScheduleObj);
+  
+  const [businessBasicInfo, setBusinessBasicInfo] = React.useState({
+    name: '',
+    type: '',
+  });
+  const [phone, setPhone] = React.useState({
+    number: 0,
+    areaCode: 0,
+  });
 
-  const steps = Steps({businessLocation, setBusinessLocation, serviceArea, setServiceArea, schedule, setSchedule});
+  const steps = Steps({
+    businessLocation,
+    setBusinessLocation,
+    serviceArea,
+    setServiceArea,
+    schedule,
+    setSchedule,
+    businessBasicInfo,
+    setBusinessBasicInfo,
+    phone,
+    setPhone
+  });
 
   const handleNext = () => {
     setActiveStep((prevActiveStep) => prevActiveStep + 1);
@@ -153,6 +190,40 @@ const BusinessRegistrationForm = () => {
   const handleReset = () => {
     setActiveStep(0);
   };
+
+  const getCurrentUser = async () => {
+    const user = localStorage.getItem('token');
+	  const token = JSON.parse(user)['token'];
+
+    try {
+      const userType = await axios.get(`${process.env.REACT_APP_API}/api/auth/validate`, {
+        headers: {
+          'x-token': token,
+        }
+      });
+      return userType.data.username;
+    } catch(err) {
+      console.log(err);
+    }
+  }
+
+  const registerBusiness = async () => {
+    await axios.post(`${process.env.REACT_APP_API}/api/business/`, {
+      username: await getCurrentUser(),
+      name: businessBasicInfo.name,
+      businessType: businessBasicInfo.type,
+      serviceArea: serviceArea,
+      phone: phone.number.slice(phone.areaCode.length),
+      servicesHours: schedule,
+      location: businessLocation,
+    }).then(res => {
+      console.log(res);
+    }
+    ).catch(err => {
+      console.log(err);
+    }
+    );
+  }
 
   return (
     <>
@@ -181,8 +252,21 @@ const BusinessRegistrationForm = () => {
                   <div>
                     <Button
                       variant="contained"
-                      onClick={handleNext}
-                      disabled={businessLocation.address === "" || serviceArea === 0 } // TODO: Add disbled for the name of the business incomplete
+                      onClick={
+                        steps.length === activeStep ? 
+                          registerBusiness() : 
+                          handleNext
+                      }
+                      disabled={
+                        businessLocation.address === "" || 
+                        serviceArea === 0 ||
+                        (activeStep === steps.length - 2 &&
+                        (businessBasicInfo.name === "" ||
+                        businessBasicInfo.type === "" ||
+                        phone.number === 0 ||
+                        phone.number === "" ||
+                        phone.number.length - phone.areaCode.length !== 10))
+                      } // TODO: Refactor validation
                       sx={{ mt: 1, mr: 1 }}
                     >
                       {index === steps.length - 1 ? 'Finish' : 'Continue'}

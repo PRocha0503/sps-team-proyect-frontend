@@ -12,18 +12,8 @@ import {
 import PhoneInput from 'react-phone-input-2';
 import 'react-phone-input-2/lib/material.css';
 
-const BusinessDetails = () => {
+const BusinessDetails = ({ businessBasicInfo, setBusinessBasicInfo, phone, setPhone }) => {
   const [showAlert, setShowAlert] = useState(false);
-
-  const [businessBasicInfo, setBusinessBasicInfo] = useState({
-    name: '',
-    type: '',
-  });
-  const [phone, setPhone] = useState({
-    number: 0,
-    areaCode: 0,
-  });
-
 
   useEffect(() => {
     const phoneWithoutAreaCode = () => {
@@ -36,6 +26,9 @@ const BusinessDetails = () => {
     else {
       setShowAlert(false);
     }
+
+    console.log('businessBasicInfo', businessBasicInfo);
+    console.log('phone', phone);
   }, [businessBasicInfo.name, businessBasicInfo.type, phone]);
 
   const handleChange = (event) => {
@@ -92,9 +85,9 @@ const BusinessDetails = () => {
               label="businessType"
               onChange={handleChange}
             >
-              <MenuItem value={0}>Restaurant</MenuItem> {/* TODO: Retrive options from API */}
-              <MenuItem value={1}>Clothes</MenuItem>
-              <MenuItem value={2}>Etc</MenuItem>
+              <MenuItem value={'Restaurant'}>Restaurant</MenuItem> {/* TODO: Retrive options from API */}
+              <MenuItem value={'Clothes'}>Clothes</MenuItem>
+              <MenuItem value={'Etc'}>Etc</MenuItem>
             </Select>
           </FormControl>
         </Box>
