@@ -22,7 +22,6 @@ import styles from "./styles/style";
 import { useEffect, useState } from "react";
 
 const ClientNavBar = ({ user }) => {
-	console.log(user);
 	const [menu, setMenu] = useState(null);
 	const handleClick = (setState) => (event) => {
 		setState(event.currentTarget);

@@ -11,7 +11,7 @@ import PastOrder from "./components/pastOrder";
 
 const ClientsPastOrders = () => {
 	const navigate = useNavigate();
-
+	const [user, setUser] = useState();
 	const [orders, setOrders] = useState([]);
 	const { token } = JSON.parse(localStorage.getItem("token")) || {};
 
@@ -19,7 +19,7 @@ const ClientsPastOrders = () => {
 		const validate = async () => {
 			try {
 				const user = await validateJWT(token);
-				// setUser(user);
+				setUser(user);
 			} catch (err) {
 				navigate("/login");
 			}
@@ -40,7 +40,7 @@ const ClientsPastOrders = () => {
 
 	return (
 		<>
-			<NavBar type={"customer"} />
+			<NavBar type={"customer"} user={user} />
 			<Box sx={{ ...styles.root }}>
 				<Box sx={{ ...styles.center }}>
 					<Box sx={{ ...styles.text }}>
