@@ -16,8 +16,10 @@ import PersonIcon from "@mui/icons-material/Person";
 import ExitToAppIcon from "@mui/icons-material/ExitToApp";
 
 import { Link } from "react-router-dom";
+import axios from 'axios';
 
 import styles from "./styles/style";
+import { useEffect, useState } from "react";
 
 const ClientNavBar = ({ user }) => {
 	const [menu, setMenu] = useState(null);
@@ -39,6 +41,11 @@ const ClientNavBar = ({ user }) => {
 		{
 			show: "Past Orders",
 			tab: "/clients/orders",
+		},
+		{
+			show: "Business Profile",
+			tab: "/business",
+			userType: "business", 
 		},
 	];
 	return (

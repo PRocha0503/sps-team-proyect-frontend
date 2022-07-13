@@ -4,18 +4,34 @@ import Page from '../../components/Page';
 import { ProductTable } from '../../components/Product/index';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
+import validateJWT from '../../helpers/validateJWT';
 
 export default function Products() {
   const [products, setProducts] = useState([]);
   const navigate = useNavigate();
+  const [user, setUser] = useState(0);
+	const { token } = JSON.parse(localStorage.getItem("token")) || {};
   
   useEffect(() => {
-		const getProducts = async () => {
-			const req = await axios.get("http://localhost:8080/api/products/business/?owner_name=John's Candy");
-			setProducts(req.data);
+    const validate = async () => {
+      try {
+        const user = await validateJWT(token);
+				setUser(user);
+        
+        const getProducts = async () => {
+          const url = `${process.env.REACT_APP_API}/api/products/business/?owner_name=${user.username}`;
+          const req = await axios.get(url);
+          setProducts(req.data);
+        };
+        getProducts();
+
+			} catch (err) {
+				console.log(err);
+			}
 		};
-		getProducts();
+		validate();
 	}, []);
+  
 
   return (
     <Page title="Products">

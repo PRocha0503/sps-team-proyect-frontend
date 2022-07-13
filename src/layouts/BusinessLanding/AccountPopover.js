@@ -1,9 +1,9 @@
-import { useRef, useState } from 'react';
+import { useRef, useState, useEffect } from 'react';
 import { Link as RouterLink } from 'react-router-dom';
 import { alpha } from '@mui/material/styles';
 import { Box, Divider, Typography, Stack, MenuItem, Avatar, IconButton } from '@mui/material';
 import MenuPopover from '../../components/MenuPopover';
-
+import validateJWT from '../../helpers/validateJWT';
 
 const MENU_OPTIONS = [
   {
@@ -23,6 +23,21 @@ export default function AccountPopover() {
   const anchorRef = useRef(null);
 
   const [open, setOpen] = useState(null);
+  const [user, setUser] = useState(0);
+	const { token } = JSON.parse(localStorage.getItem("token")) || {};
+  
+  useEffect(() => {
+    const validate = async () => {
+      try {
+        const user = await validateJWT(token);
+				setUser(user);
+			} catch (err) {
+				console.log(err);
+			}
+		};
+		validate();
+	}, []);
+
 
   const handleOpen = (event) => {
     setOpen(event.currentTarget);
@@ -71,10 +86,7 @@ export default function AccountPopover() {
       >
         <Box sx={{ my: 1.5, px: 2.5 }}>
           <Typography variant="subtitle2" noWrap>
-            John's Candy
-          </Typography>
-          <Typography variant="body2" sx={{ color: 'text.secondary' }} noWrap>
-            john@candy.com
+            {user.username}
           </Typography>
         </Box>
 

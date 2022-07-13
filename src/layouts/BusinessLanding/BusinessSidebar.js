@@ -1,9 +1,9 @@
 import PropTypes from 'prop-types';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { Link as RouterLink, useLocation } from 'react-router-dom';
 import { styled } from '@mui/material/styles';
 import { Box, Link, Drawer, Typography, Avatar } from '@mui/material';
-
+import validateJWT from '../../helpers/validateJWT';
 import Scrollbar from '../../components/Scrollbar';
 import NavSection from '../../components/NavSection';
 
@@ -34,6 +34,20 @@ BusinessSidebar.propTypes = {
 
 export default function BusinessSidebar({ isOpenSidebar, onCloseSidebar }) {
   const { pathname } = useLocation();
+  const [user, setUser] = useState(0);
+	const { token } = JSON.parse(localStorage.getItem("token")) || {};
+  
+  useEffect(() => {
+    const validate = async () => {
+      try {
+        const user = await validateJWT(token);
+				setUser(user);
+			} catch (err) {
+				console.log(err);
+			}
+		};
+		validate();
+	}, []);
 
 
   useEffect(() => {
@@ -60,7 +74,7 @@ export default function BusinessSidebar({ isOpenSidebar, onCloseSidebar }) {
             <Avatar alt="photoURL" />
             <Box sx={{ ml: 2 }}>
               <Typography variant="subtitle2" sx={{ color: 'text.primary' }}>
-                John's Candy
+                {user.username}
               </Typography>
               <Typography variant="body2" sx={{ color: 'text.secondary' }}>
                 Business

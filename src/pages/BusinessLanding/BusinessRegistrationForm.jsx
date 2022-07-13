@@ -10,38 +10,140 @@ import Typography from '@mui/material/Typography';
 import SelectLocation from './SelectLocation';
 import WeekSchedule from './WeekSchedule';
 
-const steps = [
-  {
-    label: 'Select your bussiness location',
-    description: `This will help us to bring you a better experience🥳.`,
-    styles: { width: 1000, height: 450 },
-    renderPage: () => {
-      return <SelectLocation />;
-    }
-  },
-  {
-    label: 'Select your working hours',
-    description:
-      'An ad group contains one or more ads which target a shared set of keywords.',
-    styles: { width: 1000, height: 600 },
-    renderPage: () => {
-      return <WeekSchedule />;
-    }
-  },
-  {
-    label: 'Create an ad',
-    description: `Try out different ad text to see what brings in the most customers,
-              and learn how to enhance your ads using features like ad extensions.
-              If you run into any problems with your ads, find out how to tell if
-              they're running and how to resolve approval issues.`,
-  },
-];
+import Card from '@mui/material/Card';
+import CardActions from '@mui/material/CardActions';
+import CardContent from '@mui/material/CardContent';
+import Table from '@mui/material/Table';
+import TableBody from '@mui/material/TableBody';
+import TableCell from '@mui/material/TableCell';
+import TableContainer from '@mui/material/TableContainer';
+import TableHead from '@mui/material/TableHead';
+import TableRow from '@mui/material/TableRow';
+import { Input } from '@mui/material';
+import BusinessDetails from './BusinessDetails';
 
+
+const Steps = ({businessLocation, setBusinessLocation, serviceArea, setServiceArea, schedule, setSchedule}) => {
+  return [
+    {
+      label: 'Select your bussiness location',
+      description: `This will help us to bring you a better experience🥳.`,
+      styles: { width: 1000, height: 450 },
+      renderPage: () => {
+        return <SelectLocation 
+          businessLocation={businessLocation} 
+          setBusinessLocation={setBusinessLocation} 
+          serviceArea={serviceArea} setServiceArea={setServiceArea}
+        />;
+      }
+    },
+    {
+      label: 'Select your working hours',
+      description:
+        'An ad group contains one or more ads which target a shared set of keywords.',
+      styles: { width: 1000, height: 600 },
+      renderPage: () => {
+        return <WeekSchedule schedule={schedule} setSchedule={setSchedule} />;
+      }
+    },
+    {
+      label: 'Name your business ✨',
+      description: `Last details to land your business!!!`,
+      styles: { width: 450, height: 300 },
+      renderPage: () => {
+        return <BusinessDetails />;
+      }
+    },
+    {
+      label: 'Almost done!',
+      renderPage: () => {
+        return (
+          <>
+            <Typography>
+              <h1>Your business information is the next one!</h1>
+            </Typography>
+            <Card sx={{ minWidth: 250 }}>
+              <CardContent>
+                <Typography sx={{ fontSize: 14 }} color="text.secondary" gutterBottom>
+                  Business Location
+                </Typography>
+                <Typography variant="h5" component="div">
+                  {businessLocation.address}
+                </Typography>
+                <Typography sx={{ fontSize: 14 }} color="text.secondary" gutterBottom>
+                  Service Area: {serviceArea} (mts)
+                </Typography>
+              </CardContent>
+            </Card>
+            
+            <Typography>
+              <h3>Your working hours are:</h3>
+            </Typography>
+            <TableContainer component={Paper}>
+              <Table sx={{ minWidth: 700 }} aria-label="spanning table">
+                <TableHead>
+                  <TableRow>
+                    <TableCell align="center" colSpan={3}>
+                      Schedule
+                    </TableCell>
+                  </TableRow>
+                  <TableRow>
+                    <TableCell>Day</TableCell>
+                    <TableCell align="right">Start</TableCell>
+                    <TableCell align="right">End</TableCell>
+                  </TableRow>
+                </TableHead>
+                <TableBody>
+
+                {Object.entries(schedule).map((day, entry) => (
+                  <TableRow key={day[0]}>
+                    <TableCell>{day[0]}</TableCell>
+                    <TableCell align="right">{day[1].start}</TableCell>
+                    <TableCell align="right">{day[1].end}</TableCell>
+                  </TableRow>
+                ))}
+                </TableBody>
+              </Table>
+            </TableContainer>
+          </>
+        );
+      }
+    },
+  ];
+}
 const BusinessRegistrationForm = () => {
+  const [businessLocation, setBusinessLocation] = React.useState({
+    lat: 0,
+    lng: 0,
+    address: "",
+  });
+  const [serviceArea, setServiceArea] = React.useState(0);
   const [activeStep, setActiveStep] = React.useState(0);
+
+  const weekDays = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'];
+  
+  let weekScheduleMap = new Map();
+  weekDays.forEach(element => 
+    weekScheduleMap.set(
+      element, 
+      {
+        start: "00:00", //Date(0, 0, 0, 0, 0), 
+        end: "00:00" // Date(0, 0, 0, 0, 0)
+      }
+    )
+  );
+
+  let weekScheduleObj = Array.from(weekScheduleMap).reduce((obj, [key, value]) => (
+    Object.assign(obj, { [key]: value }) 
+  ), {}); 
+
+  const [schedule, setSchedule] = React.useState(weekScheduleObj);
+
+  const steps = Steps({businessLocation, setBusinessLocation, serviceArea, setServiceArea, schedule, setSchedule});
 
   const handleNext = () => {
     setActiveStep((prevActiveStep) => prevActiveStep + 1);
+    console.log('FINAL', businessLocation, serviceArea);
   };
 
   const handleBack = () => {
@@ -80,6 +182,7 @@ const BusinessRegistrationForm = () => {
                     <Button
                       variant="contained"
                       onClick={handleNext}
+                      disabled={businessLocation.address === "" || serviceArea === 0 } // TODO: Add disbled for the name of the business incomplete
                       sx={{ mt: 1, mr: 1 }}
                     >
                       {index === steps.length - 1 ? 'Finish' : 'Continue'}
