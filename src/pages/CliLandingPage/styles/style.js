@@ -38,6 +38,16 @@ const styles = {
 			backgroundColor: "white",
 		},
 	},
+	near: {
+		color: "black",
+		width: "100%",
+		backgroundColor: "white",
+		marginBottom: "2rem",
+		":hover": {
+			color: "white",
+			backgroundColor: "black",
+		},
+	},
 };
 
 export default styles;
