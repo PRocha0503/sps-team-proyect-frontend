@@ -25,7 +25,7 @@ const Signup = () => {
 		try {
 			const { data } = await axios({
 				method: "POST",
-				url: `http://localhost:8080/api/auth/signup`,
+				url: `${process.env.REACT_APP_API}/api/auth/signup`,
 				data: {
 					username: user ? user : "",
 					password: password ? password : "",
