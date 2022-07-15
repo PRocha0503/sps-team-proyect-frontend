@@ -20,10 +20,11 @@ const Login = () => {
 		setter(e.target.value);
 	};
 	const login = async () => {
+		const url = `${process.env.REACT_APP_API}/api/auth/login`
 		try {
 			const { data } = await axios({
 				method: "POST",
-				url: `http://localhost:8080/api/auth/login`,
+				url: url,
 				data: {
 					username: user ? user : "empty",
 					password: password ? password : "empty",
