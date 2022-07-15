@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 
-import { Box, Typography, Grid, Button } from "@mui/material";
+import { Box, Typography, Grid, Button, Switch } from "@mui/material";
 import styles from "./styles/style";
 import validateJWT from "../../helpers/validateJWT";
 import isNewCustomer from "../../helpers/isNewCustomer";
@@ -17,11 +17,13 @@ const ClientLandingPage = () => {
 	const navigate = useNavigate();
 
 	const [user, setUser] = useState();
+	const [near, setNear] = useState(null);
 	const [products, setProducts] = useState([]);
 	const [coupons, setCoupons] = useState([]);
 	const [modal, setModal] = useState(false);
 	const [category, setCategory] = useState("All Products");
 	const { token } = JSON.parse(localStorage.getItem("token")) || {};
+	const [userLocation, setUserLocation] = useState({});
 
 	useEffect(() => {
 		const validate = async () => {
@@ -80,6 +82,46 @@ const ClientLandingPage = () => {
 		getCoupons();
 	}, []);
 
+	useEffect(() => {
+		// getBusinessRecomendations();
+	}, [userLocation]);
+
+	useEffect(() => {
+		if (navigator.geolocation) {
+			navigator.geolocation.getCurrentPosition(
+				async (position) => {
+					const pos = {
+						lat: position.coords.latitude,
+						lng: position.coords.longitude,
+					};
+
+					setUserLocation(pos);
+				},
+				(error) => {
+					console.log(error);
+				}
+			);
+		}
+	}, []);
+	const getBusinessRecomendations = async () => {
+		try {
+			const { data } = await axios.get(
+				`${process.env.REACT_APP_API}/api/business/nearest`,
+				{
+					params: userLocation,
+				}
+			);
+
+			setNear(data.near);
+		} catch (err) {
+			console.log(err);
+		}
+	};
+
+	const resetNear = () => {
+		setNear(null);
+	};
+
 	const modalContent = () => {
 		return (
 			<Box>
@@ -134,6 +176,21 @@ const ClientLandingPage = () => {
 				<Typography variant="h2" sx={{ marginBottom: 4, marginTop: 4 }}>
 					Products
 				</Typography>
+				{/* NEAR SWITCH */}
+				<Button
+					sx={{ ...styles.near }}
+					onClick={() => {
+						console.log(near);
+						if (!near) {
+							getBusinessRecomendations();
+						} else {
+							resetNear();
+						}
+					}}
+				>
+					{near ? "SHOW ALL SHOPS" : "SHOW IN RANGE SHOPS ONLY"}
+				</Button>
+
 				{/* Categories */}
 				<Button
 					sx={{ ...styles.cat }}
@@ -156,7 +213,6 @@ const ClientLandingPage = () => {
 				})}
 
 				{Object.keys(products).map((key, index) => {
-					console.log(category);
 					if (category == "All Products") {
 						return (
 							<>
@@ -172,18 +228,30 @@ const ClientLandingPage = () => {
 								</Typography>
 								<Grid container spacing={3}>
 									{products[key].map((item, i) => {
-										return (
-											<Grid item xs={6} md={3}>
-												<Product product={item} modal={setModal} />
-											</Grid>
-										);
+										console.log(near);
+										if (!near) {
+											return (
+												<Grid item xs={6} md={3}>
+													<Product product={item} modal={setModal} />
+												</Grid>
+											);
+										} else {
+											if (near.includes(item.owner)) {
+												return (
+													<Grid item xs={6} md={3}>
+														<Product product={item} modal={setModal} />
+													</Grid>
+												);
+											} else {
+												return <></>;
+											}
+										}
 									})}
 								</Grid>
 							</>
 						);
 					} else {
 						if (key == category) {
-							console.log("HERE");
 							return (
 								<>
 									<Typography
@@ -198,11 +266,23 @@ const ClientLandingPage = () => {
 									</Typography>
 									<Grid container spacing={3}>
 										{products[key].map((item, i) => {
-											return (
-												<Grid item xs={6} md={3}>
-													<Product product={item} modal={setModal} />
-												</Grid>
-											);
+											if (!near) {
+												return (
+													<Grid item xs={6} md={3}>
+														<Product product={item} modal={setModal} />
+													</Grid>
+												);
+											} else {
+												if (near.includes(item.owner)) {
+													return (
+														<Grid item xs={6} md={3}>
+															<Product product={item} modal={setModal} />
+														</Grid>
+													);
+												} else {
+													return <></>;
+												}
+											}
 										})}
 									</Grid>
 									;
@@ -211,16 +291,6 @@ const ClientLandingPage = () => {
 						}
 					}
 				})}
-
-				{/* <Grid container spacing={3}>
-				// 	{Object.keys(products	console.log("HERE");).map((key, index) => {
-				// 		return (
-				// 			<Grid item xs={6} md={3}>
-				// 				<Product product={products[key]} modal={setModal} />
-				// 			</Grid>
-				// 		);
-				// 	})}
-				// </Grid> */}
 			</Box>
 		</>
 	);
