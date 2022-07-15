@@ -22,10 +22,11 @@ const Signup = () => {
 	};
 	const signup = async () => {
 		console.log(user, password, userType);
+		const url = `${process.env.REACT_APP_API}/api/auth/signup`
 		try {
 			const { data } = await axios({
 				method: "POST",
-				url: `http://localhost:8080/api/auth/signup`,
+				url: url,
 				data: {
 					username: user ? user : "",
 					password: password ? password : "",
