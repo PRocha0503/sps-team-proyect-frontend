@@ -21,7 +21,7 @@ const Product = ({ product, modal }) => {
 		try {
 			const req = await axios({
 				method: "post",
-				url: "http://localhost:8080/api/orders",
+				url: `${process.env.REACT_APP_API}/api/orders`,
 				headers: {
 					"x-token": token,
 				},

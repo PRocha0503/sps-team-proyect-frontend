@@ -35,7 +35,7 @@ const CliDetails = () => {
 		try {
 			await axios({
 				method: "POST",
-				url: `http://localhost:8080/api/customers`,
+				url: `${process.env.REACT_APP_API}/api/customers`,
 				headers: {
 					"x-token": token,
 				},
