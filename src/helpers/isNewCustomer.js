@@ -3,7 +3,7 @@ import axios from "axios";
 const isNewCustomer = async (token) => {
 	await axios({
 		method: "GET",
-		url: `http://localhost:8080/api/customers`,
+		url: `${process.env.REACT_APP_API}/api/customers`,
 		headers: {
 			"x-token": token,
 		},

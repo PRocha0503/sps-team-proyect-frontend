@@ -45,7 +45,7 @@ const ClientLandingPage = () => {
 		const getProducts = async () => {
 			const { data } = await axios({
 				method: "GET",
-				url: `http://localhost:8080/api/products/all`,
+				url: `${process.env.REACT_APP_API}/api/products/all`,
 				headers: {
 					"x-token": token,
 				},
@@ -68,7 +68,7 @@ const ClientLandingPage = () => {
 		const getCoupons = async () => {
 			const req = await axios({
 				method: "GET",
-				url: `http://localhost:8080/api/coupons/all`,
+				url: `${process.env.REACT_APP_API}/api/coupons/all`,
 				headers: {
 					"x-token": token,
 				},

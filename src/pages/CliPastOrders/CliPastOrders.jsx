@@ -30,7 +30,7 @@ const ClientsPastOrders = () => {
 		const getOrders = async () => {
 			const req = await axios({
 				method: "GET",
-				url: `http://localhost:8080/api/orders`,
+				url: `${process.env.REACT_APP_API}/api/orders`,
 				headers: {
 					"x-token": token,
 				},
