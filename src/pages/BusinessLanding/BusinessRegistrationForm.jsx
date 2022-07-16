@@ -180,7 +180,6 @@ const BusinessRegistrationForm = () => {
 
   const handleNext = () => {
     setActiveStep((prevActiveStep) => prevActiveStep + 1);
-    console.log('FINAL', businessLocation, serviceArea);
   };
 
   const handleBack = () => {

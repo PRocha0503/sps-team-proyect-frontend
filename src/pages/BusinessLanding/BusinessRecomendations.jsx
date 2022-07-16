@@ -29,7 +29,7 @@ const BusinessRecomendations = () => {
             lat: position.coords.latitude,
             lng: position.coords.longitude,
           };
-          console.log(pos);
+
           setUserLocation(pos);
         },
         (error) => {

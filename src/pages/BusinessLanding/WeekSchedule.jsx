@@ -111,11 +111,8 @@ const WeekSchedule = ({ schedule, setSchedule }) => {
 
               setSchedule(prevSchedule => {
                 let newSchedule = prevSchedule;
-                console.log(weekDays);
-                console.log(alignment);
-                console.log(weekDays[alignment]);
-                console.log(newSchedule);
                 newSchedule[weekDays[alignment]].end = completeDateFormat(newValue.getHours() + ":" + newValue.getMinutes());
+                
                 return newSchedule;
               });
             }}
