@@ -1,4 +1,4 @@
-import { Button, Container, Typography } from '@mui/material';
+import { Button, Container, Stack, Typography } from '@mui/material';
 import Page from '../../components/Page'
 import { Chart as ChartJS, 
   ArcElement, 
@@ -12,6 +12,8 @@ import { Chart as ChartJS,
   } from 'chart.js';
 import { Doughnut, Bar, PolarArea } from 'react-chartjs-2';
 import Grid from '@mui/material/Grid';
+import Backdrop from '@mui/material/Backdrop';
+import CircularProgress from '@mui/material/CircularProgress';
 import { useNavigate } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 import axios from 'axios';
@@ -27,7 +29,6 @@ ChartJS.register(
   Legend
 );
 
-// TODO: Add a loading screen
 export default function BusinessLanding() {
   const navigate = useNavigate();
   const navigateToCupons = () => {
@@ -38,13 +39,18 @@ export default function BusinessLanding() {
   const [agesInfo, setAgesInfo] = useState(labels.map(() => Math.floor(Math.random() * 1000)));
   const [genders, setGender] = useState([12, 19, 3]);
   const [products, setProducts] = useState({
-    'Red': 12, 
-    'Blue': 19,
-    'Yellow': 3,
-    'Green': 5, 
-    'Purple': 2,
-    'Orange': 3
+    'Awesome product': 12, 
+    'Cool product': 19,
+    'No way this exists!': 3,
+    'Coffee': 5, 
+    'Milk': 2,
+    'Oranges': 3
   });
+
+  const [open, setOpen] = useState(true);
+  const handleClose = () => {
+    setOpen(false);
+  };
 
   useEffect(() => {
     let age = {
@@ -96,12 +102,25 @@ export default function BusinessLanding() {
           setProducts(products);
           setGender(Object.values(gender));
           setAgesInfo(Object.values(age));
+          setOpen(false);
         });
       });
   }, []);
   
   return (
     <Page title="Business Landing Page">
+      <Backdrop
+        sx={{ color: '#fff', zIndex: (theme) => theme.zIndex.drawer + 1 }}
+        open={open}
+        onClick={handleClose}
+      >
+        <Stack spacing={2} direction="row">
+          <CircularProgress color="inherit" />
+          <Typography variant="h6" sx={{ textAlign: 'center' }}>
+            Loading your stats... ✨
+          </Typography>
+        </Stack>
+      </Backdrop>
       <Container maxWidth="xl">
         <Grid container spacing={0}>
           <Grid item xs={10}>
