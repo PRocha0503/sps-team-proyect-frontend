@@ -48,6 +48,7 @@ const Product = ({ product, modal }) => {
 					{product.name}
 				</Typography>
 				<Typography variant="body2" color="primary.blue">
+					{/* TODO change to name */}
 					{product.owner}
 				</Typography>
 				<Typography variant="body2" color="text.secondary">
