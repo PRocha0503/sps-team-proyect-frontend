@@ -26,9 +26,6 @@ const BusinessDetails = ({ businessBasicInfo, setBusinessBasicInfo, phone, setPh
     else {
       setShowAlert(false);
     }
-
-    console.log('businessBasicInfo', businessBasicInfo);
-    console.log('phone', phone);
   }, [businessBasicInfo.name, businessBasicInfo.type, phone]);
 
   const handleChange = (event) => {

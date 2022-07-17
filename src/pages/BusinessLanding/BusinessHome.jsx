@@ -13,15 +13,12 @@ const BusinessHome = () => {
 
 	useEffect(() => {
 		const getUserType = async () => {
-			console.log(user);
-			console.log(token);
 			try {
 				const userType = await axios.get(`${process.env.REACT_APP_API}/api/auth/validate`, {
 					headers: {
 						'x-token': token,
 					}
 				});
-        console.log(userType);
 				setUserData(userType.data);
 
 			}
@@ -37,15 +34,11 @@ const BusinessHome = () => {
     const hasCompletedRegistration = async () => {
 			try {
 				const registerEntry = await axios.get(`${process.env.REACT_APP_API}/api/business/${userData.username}`);
-        console.log(userData);
-        console.log(registerEntry);
         // Object.keys(registerEntry.data).length > 0 ? setFirstTime(false) : setFirstTime(true);
 				if (Object.keys(registerEntry.data).length === 0) {
-					console.log('No');
           setFirstTime(true);
 				}
 				else {
-					console.log('Yes');
           setFirstTime(false);
 				}
 
