@@ -14,6 +14,13 @@ import styles from "./styles/Coupon";
 import { useNavigate } from "react-router-dom";
 import validateJWT from "../../helpers/validateJWT";
 import isBusiness from "../../helpers/isBusiness";
+import Snackbar from "@mui/material/Snackbar";
+import Alert from "@mui/material/Alert";
+import Dialog from "@mui/material/Dialog";
+import DialogActions from "@mui/material/DialogActions";
+import DialogContent from "@mui/material/DialogContent";
+import DialogContentText from "@mui/material/DialogContentText";
+import DialogTitle from "@mui/material/DialogTitle";
 
 export default function Coupons() {
 	const [coupons, setCoupons] = useState([]);
@@ -30,7 +37,8 @@ export default function Coupons() {
 
 				const isBs = await isBusiness(token);
 				if (!isBs) {
-					navigate("/business/user");
+					setOpen(true);
+					//navigate("/business/user");
 				}
 
 				const getCoupons = async () => {
@@ -46,9 +54,40 @@ export default function Coupons() {
 		validate();
 	}, []);
 
+	const [open, setOpen] = useState(false);
+
+  const handleClose = (event, reason) => {
+    if (reason === 'clickaway') {
+      return;
+    }
+
+		navigate("/business/user");
+    setOpen(false);
+  };
+
 	return (
 		<Page title="Coupons">
 			<Container>
+			<Dialog
+        open={open}
+        onClose={handleClose}
+        aria-labelledby="alert-dialog-title"
+        aria-describedby="alert-dialog-description"
+      >
+        <DialogTitle id="alert-dialog-title">
+          {"Incomplete registration📖"}
+        </DialogTitle>
+        <DialogContent>
+          <DialogContentText id="alert-dialog-description">
+            To add coupons you must complete the registration process.
+          </DialogContentText>
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={handleClose} autoFocus>
+            Agree
+          </Button>
+        </DialogActions>
+      </Dialog>
 				<Card sx={{ mb: 3, position: "relative" }}>
 					<CardHeader
 						title={"Your Coupons"}

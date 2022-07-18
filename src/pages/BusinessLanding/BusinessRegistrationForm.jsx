@@ -21,6 +21,7 @@ import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import { Input } from '@mui/material';
 import BusinessDetails from './BusinessDetails';
+import { useNavigate } from 'react-router-dom';
 
 import axios from 'axios';
 
@@ -129,6 +130,7 @@ const Steps = ({
   ];
 }
 const BusinessRegistrationForm = () => {
+  const navigate = useNavigate();
   const [businessLocation, setBusinessLocation] = React.useState({
     lat: 0,
     lng: 0,
@@ -186,8 +188,8 @@ const BusinessRegistrationForm = () => {
     setActiveStep((prevActiveStep) => prevActiveStep - 1);
   };
 
-  const handleReset = () => {
-    setActiveStep(0);
+  const handleRegistration = () => {
+    navigate('/business/app');
   };
 
   const getCurrentUser = async () => {
@@ -288,8 +290,8 @@ const BusinessRegistrationForm = () => {
         {activeStep === steps.length && (
           <Paper square elevation={0} sx={{ p: 3 }}>
             <Typography>All steps completed - you&apos;re finished</Typography>
-            <Button onClick={handleReset} sx={{ mt: 1, mr: 1 }}>
-              Reset
+            <Button onClick={handleRegistration} sx={{ mt: 1, mr: 1 }}>
+              Ok!
             </Button>
           </Paper>
         )}

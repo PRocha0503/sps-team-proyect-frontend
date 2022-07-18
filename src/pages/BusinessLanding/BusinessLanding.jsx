@@ -17,6 +17,7 @@ import CircularProgress from '@mui/material/CircularProgress';
 import { useNavigate } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 import axios from 'axios';
+import Alert from '@mui/material/Alert';
 
 ChartJS.register(
   ArcElement,
@@ -30,6 +31,10 @@ ChartJS.register(
 );
 
 export default function BusinessLanding() {
+  const user = localStorage.getItem('token');
+	const token = JSON.parse(user)['token'];
+	const [userData, setUserData] = useState({});
+
   const navigate = useNavigate();
   const navigateToCupons = () => {
     navigate('/business/coupons', {replace: true});
@@ -48,9 +53,29 @@ export default function BusinessLanding() {
   });
 
   const [open, setOpen] = useState(true);
+  const [showAlert, setShowAlert] = useState(false);
   const handleClose = () => {
     setOpen(false);
   };
+
+  useEffect(() => {
+		const getUserType = async () => {
+			try {
+				const userType = await axios.get(`${process.env.REACT_APP_API}/api/auth/validate`, {
+					headers: {
+						'x-token': token,
+					}
+				});
+				setUserData(userType.data);
+
+			}
+			catch (err) {
+				console.log(err);
+			}
+			
+		};
+		getUserType();
+	}, [token, user]);
 
   useEffect(() => {
     let age = {
@@ -69,7 +94,7 @@ export default function BusinessLanding() {
 
     let products = {}
 
-    axios.get(`${process.env.REACT_APP_API}/api/analytics/testBu`)
+    axios.get(`${process.env.REACT_APP_API}/api/analytics/${userData.username}`)
       .then(res => {
         
         let data = res.data;
@@ -102,10 +127,15 @@ export default function BusinessLanding() {
           setProducts(products);
           setGender(Object.values(gender));
           setAgesInfo(Object.values(age));
-          setOpen(false);
         });
+
+        if(Object.values(data).length === 0) { // No orders/customers data
+          setShowAlert(true);
+        }
+
+        setOpen(false);
       });
-  }, []);
+  }, [userData]);
   
   return (
     <Page title="Business Landing Page">
@@ -138,6 +168,24 @@ export default function BusinessLanding() {
             </Button>
           </Grid>
         </Grid>
+        {
+          showAlert &&
+          <>
+            <Stack spacing={2} direction="column">
+              <Alert
+                severity="warning"
+              >
+                By the moment you have not enough data to give you some insights!
+              </Alert>
+              <Alert
+                severity="info"
+              >
+                When you have orders/customers data, you will be able to see some awesome insights like these ones✨.
+              </Alert>
+            </Stack>
+          </>
+        }
+        
         <Typography variant="h5" sx={{ mb: 5 }}>
           Users Demography
         </Typography>
