@@ -180,7 +180,6 @@ const BusinessRegistered = () => {
 			.get(`${process.env.REACT_APP_API}/api/business/${user.username}`)
 			.then((res) => {
 				setBusinessInfo(res.data);
-				console.log(res.data);
 			})
 			.catch((err) => {
 				console.log(err);
