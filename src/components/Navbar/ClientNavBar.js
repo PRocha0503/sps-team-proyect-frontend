@@ -44,7 +44,7 @@ const ClientNavBar = ({ user }) => {
 		},
 		{
 			show: "Business Profile",
-			tab: "/business",
+			tab: "/business/user",
 			userType: "business",
 		},
 	];

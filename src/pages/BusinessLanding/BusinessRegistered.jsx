@@ -1,3 +1,4 @@
+/* eslint-disable no-undef */
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { Typography } from "@mui/material";
