@@ -94,7 +94,6 @@ export default function BusinessLanding() {
 
     let products = {}
 
-    console.log(`${process.env.REACT_APP_API}/api/analytics/${userData.username}`);
     axios.get(`${process.env.REACT_APP_API}/api/analytics/${userData.username}`)
       .then(res => {
         
@@ -131,7 +130,6 @@ export default function BusinessLanding() {
         });
 
         if(Object.values(data).length === 0) { // No orders/customers data
-          console.log('No data');
           setShowAlert(true);
         }
 
