@@ -2,7 +2,7 @@ import React, {useState, useEffect} from 'react';
 import BusinessRegistrationForm from './BusinessRegistrationForm';
 import axios from 'axios';
 import { Typography } from '@mui/material';
-import BusinessRecomendations from './BusinessRecomendations';
+import BusinessRegistered from './BusinessRegistered';
 
 const BusinessHome = () => {
   const [firstTime, setFirstTime] = useState(true);
@@ -57,7 +57,7 @@ const BusinessHome = () => {
       {firstTime ?
         <BusinessRegistrationForm />
 				:
-				<BusinessRecomendations />
+				<BusinessRegistered />
       }
 
     </>
