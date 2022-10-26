@@ -4,10 +4,11 @@ const styles = {
 		width: "100%",
 		backgroundColor: "primary.main",
 		position: "fixed",
+		zIndex: 1,
 	},
 	authButtons: {
 		backgroundColor: "white",
-		width: "70%",
+		width: "90%",
 		color: "black",
 		":hover": {
 			backgroundColor: "primary.blue",

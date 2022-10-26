@@ -33,17 +33,17 @@ const ClientNavBar = ({ user }) => {
 	};
 	const navItems = [
 		{
-			show: "Marketplace",
+			show: "Mercado",
 			tab: "/clients",
 			userType: "customer",
 		},
 		{
-			show: "Past Orders",
+			show: "Historial de Ordenes",
 			tab: "/clients/orders",
 			userType: "customer",
 		},
 		{
-			show: "Business Profile",
+			show: "Perfil de Negicio",
 			tab: "/business/user",
 			userType: "business",
 		},
@@ -62,7 +62,7 @@ const ClientNavBar = ({ user }) => {
 						}}
 					>
 						<Link to="/">
-							<Typography variant="company">sholo</Typography>
+							<Typography variant="company">La Comunidad</Typography>
 						</Link>
 					</Box>
 				</Grid>
@@ -163,7 +163,7 @@ const ClientNavBar = ({ user }) => {
 										<ListItemIcon sx={{ color: "black" }}>
 											<PersonIcon fontSize="small" />
 										</ListItemIcon>
-										<ListItemText sx={{ color: "black" }}>Profile</ListItemText>
+										<ListItemText sx={{ color: "black" }}>Perfil</ListItemText>
 									</MenuItem>
 								</LinkMUI>
 								<LinkMUI onClick={logout}>
@@ -171,7 +171,7 @@ const ClientNavBar = ({ user }) => {
 										<ListItemIcon sx={{ color: "black" }}>
 											<ExitToAppIcon fontSize="small" />
 										</ListItemIcon>
-										<ListItemText sx={{ color: "black" }}>Logout</ListItemText>
+										<ListItemText sx={{ color: "black" }}>Salir</ListItemText>
 									</MenuItem>
 								</LinkMUI>
 							</Menu>
@@ -180,12 +180,12 @@ const ClientNavBar = ({ user }) => {
 						<>
 							<Grid item xs={5}>
 								<Link to="/login">
-									<Button sx={{ ...styles.authButtons }}>LOGIN</Button>
+									<Button sx={{ ...styles.authButtons }}>Inicia Sesion</Button>
 								</Link>
 							</Grid>
 							<Grid item xs={5}>
 								<Link to="signup">
-									<Button sx={{ ...styles.authButtons }}>SIGNUP</Button>
+									<Button sx={{ ...styles.authButtons }}>Crea tu cuenta</Button>
 								</Link>
 							</Grid>
 						</>

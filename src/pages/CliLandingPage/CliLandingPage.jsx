@@ -126,10 +126,10 @@ const ClientLandingPage = () => {
 		return (
 			<Box>
 				<Typography variant="h5" color="black">
-					Congratulations!
+					¡Felicidades!
 				</Typography>
 				<Typography variant="body2" color="text.secondary">
-					Your order has been placed successfully.
+					Tu orden ha sido registrada exitosamente.
 				</Typography>
 				<Button
 					sx={{ ...styles.modalButton }}
@@ -137,7 +137,7 @@ const ClientLandingPage = () => {
 						setModal(false);
 					}}
 				>
-					Close
+					Cerrar
 				</Button>
 			</Box>
 		);
@@ -154,15 +154,16 @@ const ClientLandingPage = () => {
 			<Box sx={{ ...styles.root }}>
 				<Box sx={{ ...styles.center }}>
 					<Box sx={{ ...styles.text }}>
-						<Typography variant="h1">Marketplace</Typography>
+						<Typography variant="h1">Mercado</Typography>
 						<Typography variant="desc" align="center">
-							Here you can buy different products and help your community! Many
-							of the products have coupons so be sure to check those out
+							Aqui podras concoer los productos qu se venden cerca de ti,
+							asegurate de revisar la seción de cupones para los mejores
+							descuentos.
 						</Typography>
 					</Box>
 				</Box>
 				<Typography variant="h2" sx={{ marginBottom: 4 }}>
-					Coupons
+					Cupones
 				</Typography>
 				<Box
 					sx={{
@@ -174,7 +175,7 @@ const ClientLandingPage = () => {
 					})}
 				</Box>
 				<Typography variant="h2" sx={{ marginBottom: 4, marginTop: 4 }}>
-					Products
+					Productos
 				</Typography>
 				{/* NEAR SWITCH */}
 				<Button
@@ -188,7 +189,7 @@ const ClientLandingPage = () => {
 						}
 					}}
 				>
-					{near ? "SHOW ALL SHOPS" : "SHOW IN RANGE SHOPS ONLY"}
+					{near ? "Ver todas las tiendas" : "Ver las tiendas cerca de ti"}
 				</Button>
 
 				{/* Categories */}

@@ -39,13 +39,13 @@ const styles = {
 		},
 	},
 	near: {
-		color: "black",
+		color: "primary.main",
 		width: "100%",
 		backgroundColor: "white",
 		marginBottom: "2rem",
 		":hover": {
-			color: "white",
-			backgroundColor: "black",
+			color: "black",
+			backgroundColor: "white",
 		},
 	},
 };

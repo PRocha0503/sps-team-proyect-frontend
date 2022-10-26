@@ -58,7 +58,7 @@ const Product = ({ product, modal }) => {
 			<Box sx={{ ...styles.coupon }}>
 				<TextField
 					id="coupon"
-					label="Coupon"
+					label="Cupon"
 					value={coupon}
 					onChange={(e) => setCoupon(e.target.value)}
 					sx={{ ...styles.txtCoupon }}

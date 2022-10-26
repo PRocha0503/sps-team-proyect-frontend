@@ -5,7 +5,7 @@ import { Box, Grid, Typography, Button } from "@mui/material";
 import NavBar from "../../components/Navbar";
 import validateJWT from "././../../helpers/validateJWT";
 import styles from "./styles/home";
-import image from "../../assets/Phone.png";
+import image from "../../assets/com.png";
 
 const Home = () => {
 	const navigate = useNavigate();
@@ -53,25 +53,26 @@ const Home = () => {
 					<Grid item xs={7}>
 						<Box sx={{ ...styles.firstSquare }}>
 							<Typography variant="h4" sx={{ ...styles.title }}>
-								Shop local, support your community
+								Compra local, ayuda a la comunidad
 							</Typography>
 							<Typography variant="desc" sx={{ ...styles.desc }}>
-								Search for the products you are looking for in your community.
+								Encuentra los productos que tu quieres en tu area y ayuda a la
+								empresas chicas.
 							</Typography>
 							<Button onClick={goToLogin} sx={{ ...styles.button }}>
-								Join as customer
+								Empieza a comprar
 							</Button>
 						</Box>
 						<Box sx={{ ...styles.secondSquare }}>
 							<Typography variant="h4" sx={{ ...styles.title }}>
-								Get people what they need
+								Dale a conocer con la gente que te quiere
 							</Typography>
 							<Typography variant="desc" align="right" sx={{ ...styles.desc }}>
-								Get more people to know your small brand and know all about your
-								amazing products.
+								Concoce y ofece tus increibles productos a la comunidad en la
+								que vives.
 							</Typography>
 							<Button onClick={goToLogin} sx={{ ...styles.button }}>
-								Join as business
+								Unete como negocio
 							</Button>
 						</Box>
 					</Grid>

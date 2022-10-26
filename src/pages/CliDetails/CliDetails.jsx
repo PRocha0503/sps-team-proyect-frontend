@@ -62,24 +62,24 @@ const CliDetails = () => {
 						sx={{ ...styles.select }}
 						value={gender}
 						onChange={(e) => handleChange(e, setGender)}
-						label="Gender"
+						label="Genero"
 						SelectProps={{
 							native: true,
 						}}
-						helperText="How do you identify?"
+						helperText="¿Cómo te identificas?"
 					>
 						<option key={"male"} value={"male"}>
-							Male
+							Hombre
 						</option>
 						<option key={"female"} value={"female"}>
-							Female
+							Mujer
 						</option>
 						<option key={"other"} value={"other"}>
-							Other
+							Otro
 						</option>
 					</TextField>
 					<TextField
-						label="Age"
+						label="Edad"
 						type="number"
 						value={age}
 						onChange={(e) => handleChange(e, setAge)}
@@ -87,7 +87,7 @@ const CliDetails = () => {
 						sx={{ ...styles.input }}
 					/>
 					<Button onClick={submit} sx={{ ...styles.button }}>
-						Submit
+						Mandar
 					</Button>
 				</Box>
 			</Box>
