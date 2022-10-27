@@ -22,7 +22,7 @@ const Signup = () => {
 	};
 	const signup = async () => {
 		console.log(user, password, userType);
-		const url = `${process.env.REACT_APP_API}/api/auth/signup`
+		const url = `${process.env.REACT_APP_API}/api/auth/signup`;
 		try {
 			const { data } = await axios({
 				method: "POST",
@@ -43,7 +43,7 @@ const Signup = () => {
 			}
 		} catch (err) {
 			console.log("ERROR", "Incorrect login credentials");
-			setError("Incorrect login credentials");
+			setError("Credenciales incorrectas");
 		}
 	};
 
@@ -75,15 +75,15 @@ const Signup = () => {
 								variant="h1"
 								sx={{ color: "black", fontWeight: "bold" }}
 							>
-								Signup
+								Registrarse
 							</Typography>
 							<Typography
 								variant="desc"
 								textAlign="center"
 								sx={{ color: "gray", marginBottom: 3 }}
 							>
-								Hello! Provide the your details below and join this amazing
-								community!
+								¡Hola! Proporciona los detalles requeridos y unete a esta gran
+								comunidad.
 							</Typography>
 							<TextField
 								label="Email"
@@ -93,7 +93,7 @@ const Signup = () => {
 								sx={{ ...styles.input }}
 							/>
 							<TextField
-								label="Password"
+								label="Constraseña"
 								type="password"
 								value={password}
 								onChange={(e) => handleChange(e, setPassword)}
@@ -106,17 +106,17 @@ const Signup = () => {
 							sx={{ ...styles.select }}
 							value={userType}
 							onChange={(e) => handleChange(e, setUserType)}
-							label="User type"
+							label="Tipo de usuario"
 							SelectProps={{
 								native: true,
 							}}
-							helperText="Please select if you would like to join as a customer or business"
+							helperText="Seleciona si te gustaria unirte como cliente o negocio"
 						>
 							<option key={"customer"} value={"customer"}>
-								Customer
+								Cliente
 							</option>
 							<option key={"business"} value={"business"}>
-								Business
+								Negocio
 							</option>
 						</TextField>
 						{error ? (
@@ -129,7 +129,7 @@ const Signup = () => {
 						) : (
 							<></>
 						)}
-						<Button onClick={signup}>SIGNUP</Button>
+						<Button onClick={signup}>Registrarse</Button>
 					</Box>
 				</Grid>
 				<Grid item xs={6} sx={{ ...styles.left }}>

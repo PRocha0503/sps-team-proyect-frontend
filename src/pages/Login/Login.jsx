@@ -41,7 +41,7 @@ const Login = () => {
 			}
 		} catch (err) {
 			console.log("ERROR", "Incorrect login credentials");
-			setError("Incorrect login credentials");
+			setError("Credenciales incorrectas");
 		}
 	};
 
@@ -93,15 +93,16 @@ const Login = () => {
 								variant="h1"
 								sx={{ color: "black", fontWeight: "bold" }}
 							>
-								Login
+								Inicar Sesion
 							</Typography>
 							<Typography
 								variant="desc"
 								textAlign="center"
 								sx={{ color: "gray", marginBottom: 3 }}
 							>
-								Welcome back! Please login to your account. If you don't have an
-								account yet, sing up here.
+								¡Bienvenido de regreso! Porfavor ingresa tus para poder iniciar
+								sesion. Si aun no tienes cuenta registrate con el boton de
+								"Registrarse".
 							</Typography>
 							<TextField
 								label="Email"
@@ -111,7 +112,7 @@ const Login = () => {
 								sx={{ ...styles.input }}
 							/>
 							<TextField
-								label="Password"
+								label="Contraseña"
 								type="password"
 								value={password}
 								onChange={(e) => handleChange(e, setPassword)}
@@ -129,7 +130,7 @@ const Login = () => {
 						) : (
 							<></>
 						)}
-						<Button onClick={login}>LOGIN</Button>
+						<Button onClick={login}>Iniciar Sesion</Button>
 					</Box>
 				</Grid>
 			</Grid>
